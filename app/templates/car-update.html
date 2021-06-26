@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Admin</title>
+<!-- plugins:css -->
+<link rel="stylesheet" href="../static/app/assets/mdi/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="../static/app/assets/css/vendor.bundle.base.css">
+<!-- endinject -->
+<!-- Plugin css for this page -->
+<link rel="stylesheet" href="../static/app/assets/datatables.net-bs4/dataTables.bootstrap4.css">
+<link rel="stylesheet" href="../static/app/assets/dropify/dropify.min.css">
+<!-- End plugin css for this page -->
+<!-- inject:css -->
+<link rel="stylesheet" href="../static/app/assets/css/vertical-layout-light/style.css">
+<!-- endinject -->
+<link rel="shortcut icon" href="" />
+</head>
+
+  <body class="sidebar-icon-only">
+    <div class="container-scroller">
+      <!-- partial:../../partials/_navbar.html -->
+      <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-between">
+          <ul class="navbar-nav mr-lg-2 d-none d-lg-flex">
+            <li class="nav-item nav-toggler-item">
+              <button class="navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                <span class="mdi mdi-menu"></span>
+              </button>
+            </li>
+            <li class="nav-item nav-search d-none d-lg-flex">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="search">
+                    <i class="mdi mdi-magnify"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" placeholder="search" aria-label="search" aria-describedby="search">
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item dropdown">
+              <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+                <i class="mdi mdi-bell-outline mx-0"></i>
+                <span class="count"></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                <a class="dropdown-item">
+                  <p class="mb-0 font-weight-normal float-left">You have 4 new notifications
+                  </p>
+                  <span class="badge badge-pill badge-warning float-right">View all</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-success">
+                      <i class="mdi mdi-information mx-0"></i>
+                    </div>
+                  </div>
+                  <div class="preview-item-content">
+                    <h6 class="preview-subject font-weight-medium">Application Error</h6>
+                    <p class="font-weight-light small-text mb-0">
+                      Just now
+                    </p>
+                  </div>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-warning">
+                      <i class="mdi mdi-settings mx-0"></i>
+                    </div>
+                  </div>
+                  <div class="preview-item-content">
+                    <h6 class="preview-subject font-weight-medium">Settings</h6>
+                    <p class="font-weight-light small-text mb-0">
+                      Private message
+                    </p>
+                  </div>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-info">
+                      <i class="mdi mdi-account-box mx-0"></i>
+                    </div>
+                  </div>
+                  <div class="preview-item-content">
+                    <h6 class="preview-subject font-weight-medium">New user registration</h6>
+                    <p class="font-weight-light small-text mb-0">
+                      2 days ago
+                    </p>
+                  </div>
+                </a>
+              </div>
+            </li>
+            <li class="nav-item nav-profile dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                <img src="https://via.placeholder.com/30x30" alt="profile"/>
+                <span class="nav-profile-name">Admin</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                <a class="dropdown-item">
+                  <i class="mdi mdi-settings text-primary"></i>
+                  Settings
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item">
+                  <i class="mdi mdi-logout text-primary"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+            <li class="nav-item nav-toggler-item-right d-lg-none">
+              <button class="navbar-toggler align-self-center" type="button" data-toggle="offcanvas">
+                <span class="mdi mdi-menu"></span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">
+                <i class="mdi mdi-view-quilt menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'car_list' %}">
+                <i class="mdi mdi-car menu-icon"></i>
+                <span class="menu-title">Cars</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'lead_list' %}">
+                <i class="mdi mdi-chart-bar menu-icon"></i>
+                <span class="menu-title">Leads</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'cust_list' %}">
+                <i class="mdi mdi-account-multiple menu-icon"></i>
+                <span class="menu-title">Customers</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="{% url 'sold_cars' %}" aria-expanded="false" aria-controls="form-elements">
+                <i class="mdi mdi-cash-multiple menu-icon"></i>
+                <span class="menu-title">Sold Cars</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'all_rep' %}">
+              <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+              <span class="menu-title">Reports</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <form ng-app="addApp" ng-controller="addCtrl" method="post" enctype="multipart/form-data">
+          <div class="content-wrapper">
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <h2 class="pl-3 mt-3">Car Details</h2>
+                  <div class="card-body">
+                      {% csrf_token %}
+                      {% for x in car_detail %}
+                      <div class="row">
+                        <div class="col">
+                          <lable>Old Customer</lable>
+                          <input type="text" name="old_cus" value="{{ x.OldCust }}" class="form-control">
+                        </div>
+                      </div>
+                      <div class="row mt-2">
+                        <div class="col">
+                          <label>Car Name</label>
+                          <input type="text" name="cname" value="{{ x.CarName }}" class="form-control">
+                        </div>
+                        <div class="col">
+                          <label>Date</label>
+                          <input type="date" name="date" value="{{ x.Date }}" class="form-control">
+                        </div>
+                        <div class="col">
+                          <label>Car Model</label>
+                          <input type="text" name="cmodel" value="{{ x.CarModel }}" class="form-control">
+                        </div>
+                      </div>
+                      <div class="row mt-2">
+                        <div class="col">
+                          <label>Make</label>
+                          <input type="text" name="mfg" value="{{ x.Mfg }}" class="form-control">
+                        </div>
+                        <div class="col">
+                          <label>Registration No:</label>
+                          <input type="text" name="reg_no" value="{{ x.RegNo }}" class="form-control">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6"> 
+                          <div class="row mt-2">
+                            <div class="col">
+                              <label>Milage</label>
+                              <input type="text" name="milage" value="{{ x.Milage }}" class="form-control">
+                            </div>
+                          </div>  
+                          <div class="row mt-2">
+                            <div class="col">
+                              <label>Engine</label>
+                              <input type="text" name="engine" value="{{ x.Engine }}" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="row mt-2">
+                            <div class="col">
+                              <label>Car Image</label>
+                              <input type="text" name="c_img" value="{{ x.CarImage }}" hidden>
+                              <input type="file" name="car_image" value="../media/{{ x.CarImage }}" class="dropify" data-default-file="../media/{{ x.CarImage }}"/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    <!-- </form> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Documentation Start-->
+          <div class="content-wrapper">
+            <div class="row">
+              <div class="col-lg-6 grid-margin">
+                <div class="card">
+                  <h2 class="pl-3 mt-3">Documentation</h2>
+                  <div class="card-body">
+                    <div class="field_wrapper">
+                      <div class="row field_html">
+                        <input type="text" name="doc[]" placeholder="  Document Description" class="mr-2 ml-3">
+                        <input type="file"  name="docfile[]" class="dropify"/>
+                        <!-- <input type="text" name="field_name[]" value=""/> -->
+                        <a href="javascript:void(0);" class="add_button btn-duplicator" title="Add field"><img src="../static/app/assets/img/add-icon.png" class="pl-5 mt-5"></a>
+                      </div>
+                    </div>
+                    <!-- <a class="btn btn-outline-primary mt-3" href="#">Expense</a> -->
+                  </div>
+                </div>
+              </div>
+            <!-- Addition With Button -->
+            {% for x in car_detail %}
+            <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                    <h2 class="pl-3 mt-3">Expense Module</h2>
+                    <div class="card-body">
+                        <div class="row">
+                            <label class="text-center">Bodyshop</label>
+                            <div class="col">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text bg-primary text-white">£</span>
+                                <input type="text" name="bodyshop" value="{{ x.BodyShop_Amount }}" id="expense1" class="form-control">
+                                <div class="input-group-append">
+                                  <span class="input-group-text">.00</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <input type="text" name="bodyshop1" value="{{ x.BodyShop_Details }}" class="form-control" placeholder="Description">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                          <label style="padding-left:37px;">MOT</label>
+                          <div class="col">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text bg-primary text-white">£</span>
+                                <input type="text" name="mot" id="expense2" value="{{ x.MOT_Amount }}" class="form-control">
+                                <div class="input-group-append">
+                                  <span class="input-group-text">.00</span>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="col">
+                            <input type="text" name="mot1" value="{{ MOT_Details }}" class="form-control" placeholder="Description">
+                          </div>
+                        </div> 
+                        <div class="row mt-2">
+                          <label style="padding-left:2px;">Mechanic</label>
+                          <div class="col">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text bg-primary text-white">£</span>
+                                <input type="text" name="mechanic" value="{{ x.Mechanic_Amount }}" id="expense3" class="form-control">
+                                <div class="input-group-append">
+                                  <span class="input-group-text">.00</span>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="col">
+                            <input type="text" name="mechanic1" value="{{ x.Mechanic_Details }}" class="form-control" placeholder="Description">
+                          </div>
+                        </div>  
+                        <div class="row mt-2">
+                          <label style="padding-left:3px;">Travelling</label>
+                          <div class="col">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text bg-primary text-white">£</span>
+                                <input type="text" name="travelling" value="{{ x.Travelling_Amount }}" id="expense4" class="form-control">
+                                <div class="input-group-append">
+                                  <span class="input-group-text">.00</span>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="col">
+                            <input type="text" name="travelling1" value="{{ x.Travelling_Details }}" class="form-control" placeholder="Description">
+                          </div>
+                        </div> 
+                        <div class="row mt-2">
+                          <label style="padding-left:40px;">Fuel</label>
+                          <div class="col">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text bg-primary text-white">£</span>
+                                <input type="text" name="fuel" value="{{ x.Fuel_Amount }}" id="expense5" class="form-control">
+                                <div class="input-group-append">
+                                  <span class="input-group-text">.00</span>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="col">
+                            <input type="text" name="fuel1" value="{{ x.Fuel_Details }}" class="form-control" placeholder="Description">
+                          </div>
+                        </div> 
+                        <div class="row mt-2">
+                          <label style="padding-left:35px;">Total</label>
+                          <div class="col">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text bg-primary text-white">£</span>
+                              <input type="text" name="answer" id="answer" class="form-control" disabled placeholder="{{ x.Total_Expenses }}">
+                              <div class="input-group-append">
+                                <span class="input-group-text">.00</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row mt-2 justify-content-center">
+                          <button type="button" onclick="add()" class="btn btn-outline-primary">Add</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+              </div>
+            </div>
+      </div>
+          </div>
+          <!-- Documentaion End-->
+          <!-- Price Start-->
+          {% for x in car_detail %}
+          <div class="content-wrapper">
+            <h2 class="pl-3">Price</h2>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                          <div class="col">
+                            <label>Buy Price</label>
+                            <div class="input-group-prepend">
+                              <span class="input-group-text bg-primary text-white">£</span>
+                              <input type="text" name="buy_price" value="{{ x.BuyPrice }}" id="buy_price" class="form-control">
+                              <div class="input-group-append">
+                                <span class="input-group-text">.00</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row mt-2">
+                          <div class="col">
+                            <label>Total Car Value After Expenses</label>
+                            <input type="text" name="expense" value="{{ x.Total_Expenses }}" class="form-control" id="total_expense" disabled placeholder="">
+                          </div>
+                        </div> 
+                        <div class="row mt-2">
+                          <div class="col">
+                            <label>Sell price</label>
+                            <div class="input-group-prepend">
+                              <span class="input-group-text bg-primary text-white">£</span>
+                              <input type="text" name="sell_price" value="{{ x.SellPrice }}" class="form-control">
+                              <div class="input-group-append">
+                                <span class="input-group-text">.00</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {% endfor %}  
+                        <div class="row mt-4 pl-3 justify-content-center">
+                          <input type="submit" name="submit" value="submit" href="#" class="btn btn-outline-primary">
+                        </div>
+                    
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </form>
+          <!-- Price End-->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021 <a href="https://www.helicoreinfo.com/" target="_blank">Helicore</a>. All rights reserved.</span>
+              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="../static/app/assets/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <script src="../static/app/assets/datatables.net/jquery.dataTables.js"></script>
+    <script src="../static/app/assets/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="../static/app/assets/dropify/dropify.min.js"></script>
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="../static/app/assets/js/index.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="../static/app/assets/js/data-table.js"></script>
+    <script src="../static/app/js/dropify.js"></script>
+    <!-- Add on js for button-->
+    
+    <script type="text/javascript">
+      $(document).ready(function(){
+      var maxField = 10; //Input fields increment limitation
+      var addButton = $('.add_button'); //Add button selector
+      var wrapper = $('.field_wrapper'); //Input field wrapper
+      var fieldHTML = '<div class="row field_html mt-2" style="margin-left:2px;"><input type="text" name="doc[]" class="mr-2 mt-2" placeholder="  Document Description"><input type="file"  name="docfile[]" class="dropify"><a href="javascript:void(0);" class="remove_button pl-5 mt-5"><img src="../static/app/assets/img/remove-icon.png"></a></div>'; //New input field html 
+      var x = 1; //Initial field counter is 1
+      
+      //Once add button is clicked
+      $(addButton).click(function(){
+          //Check maximum number of input fields
+          if(x < maxField){ 
+              x++; //Increment field counter
+              $(wrapper).append(fieldHTML); //Add field html
+          }
+      });
+      
+      //Once remove button is clicked
+      $(wrapper).on('click', '.remove_button', function(e){
+          e.preventDefault();
+          $(this).parent('div').remove(); //Remove field html
+          x--; //Decrement field counter
+      });
+      });
+    </script>
+
+    <script src="../static/app/assets/js/dropify.js"></script>
+    <!-- End custom js for this page-->
+    <script>$(document).ready(function() {
+    //this calculates values automatically 
+    sum();
+    $("#answer, #buy_price").on("keydown keyup", function() {
+        sum();
+    });
+});
+
+function sum() {
+            var answer = document.getElementById('answer').value;
+            var buy_price = document.getElementById('buy_price').value;
+      var result = parseInt(answer) + parseInt(buy_price);
+      // var result1 = parseInt(num2) - parseInt(num1);
+            if (!isNaN(result)) {
+                document.getElementById('sum').value = result;
+        // document.getElementById('subt').value = result1;
+            }
+        }</script>
+  </body>
+</html>

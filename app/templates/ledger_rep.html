@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Title</title>
+        <style type="text/css">
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+            .title span {
+                color: #007cae;
+            }
+            .details {
+                /*padding: 10px 10px 10px 10px;
+                text-align: left !important;*/
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            <div class='header'>
+                <p class='title'>Ledger Report</p>
+            </div>
+        <div>
+            <table>
+                <tr>
+                    <th>CarName</th>
+                    <th>RegNo</th>
+                    <th>KWNo</th>
+                    <th>V.Type</th>
+                    <th>Credit</th>
+                    <th>Debit</th>
+                </tr>
+                {% for x in sold_details %}
+                <tr style="text-align: center;">
+                    <td>{{ x.CarName }}</td>
+                    <td>{{ x.RegNo }}</td>
+                    <td>{{ x.KWNo }}</td>
+                    <td>Sales</td>
+                    <td>{{ x.Amount }}</td>
+                    <td>-</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <hr class='hrItem' />
+            Total Credit: {{ total }}
+        </div>
+    </body>
+</html>

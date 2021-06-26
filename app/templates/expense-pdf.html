@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../static/app/assets/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../static/app/assets/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="../static/app/assets/datatables.net-bs4/dataTables.bootstrap4.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../static/app/assets/css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="" />
+  </head>
+
+  <body class="sidebar-icon-only">
+    <!-- partial -->
+    <div class="content-wrapper">
+      <div class="card">
+        <div class="card-body">
+          <div class="col-12">
+            <div class="row mb-2">
+              <div class="col-12 text-center">
+                <h6 style="text-align: center;">Ahmedabad</h6>
+                <h1 style="text-align: center;">Showtime Media Management</h1>
+                <h4 style="text-align: center;">Sales Report</h4>
+                <h6 style="text-align: center;">8048 Bienville Dr, Nashville,<br>
+                  Tennessee 37211, US<br>
+                  Mitch@showtimemediamgmt.com</h6>
+                  <label class="mr-2"><h3 style="text-align: center;">{{ from_date }}</h3></label><h3 style="text-align: center;">To</h3><lable class="ml-2"> <h3 style="text-align: center;">{{ to_date }}</h3></lable>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="table-responsive">
+                
+            <table>
+                <tr>
+                    <th>No:</th>
+                    <th>Date</th>
+                    <th>CarName</th>
+                    <th>BodyShop</th>
+                    <th>Mechanic</th>
+                    <th>MOT</th>
+                    <th>Travelling</th>
+                    <th>Fuel</th>
+                    <th>Total</th>
+                </tr>
+                {% for x in expense_details %}
+                <tr style="text-align: center;">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ x.Date }}</td>
+                    <td>{{ x.CarName }}</td>
+                    <td>{{ x.BodyShop_Amount }}</td>
+                    <td>{{ x.Mechanic_Amount }}</td>
+                    <td>{{ x.MOT_Amount }}</td>
+                    <td>{{ x.Travelling_Amount }}</td>
+                    <td>{{ x.Fuel_Amount }}</td>
+                    <td>{{ x.Total_Expenses }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <hr class='hrItem' />
+            <b>Total Expence:</b> {{ total }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- content-wrapper ends -->
+    <!-- plugins:js -->
+    <script src="../static/app/assets/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <script src="../static/app/assets/datatables.net/jquery.dataTables.js"></script>
+    <script src="../static/app/assets/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="../static/app/assets/js/index.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="../static/app/assets/js/data-table.js"></script>
+    <!-- End custom js for this page-->
+  </body>
+</html>

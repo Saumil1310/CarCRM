@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../static/app/assets/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../static/app/assets/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="../static/app/assets/datatables.net-bs4/dataTables.bootstrap4.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../static/app/assets/css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="" />
+  </head>
+
+  <body class="sidebar-icon-only">
+    <div class="container-scroller">
+      <!-- partial:../../partials/_navbar.html -->
+      <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-between">
+          <ul class="navbar-nav mr-lg-2 d-none d-lg-flex">
+            <li class="nav-item nav-toggler-item">
+              <button class="navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                <span class="mdi mdi-menu"></span>
+              </button>
+            </li>
+            <li class="nav-item nav-search d-none d-lg-flex">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="search">
+                    <i class="mdi mdi-magnify"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" placeholder="search" aria-label="search" aria-describedby="search">
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item dropdown">
+              <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+                <i class="mdi mdi-bell-outline mx-0"></i>
+                <span class="count"></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                <a class="dropdown-item">
+                  <p class="mb-0 font-weight-normal float-left">You have 4 new notifications
+                  </p>
+                  <span class="badge badge-pill badge-warning float-right">View all</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-success">
+                      <i class="mdi mdi-information mx-0"></i>
+                    </div>
+                  </div>
+                  <div class="preview-item-content">
+                    <h6 class="preview-subject font-weight-medium">Application Error</h6>
+                    <p class="font-weight-light small-text mb-0">
+                      Just now
+                    </p>
+                  </div>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-warning">
+                      <i class="mdi mdi-settings mx-0"></i>
+                    </div>
+                  </div>
+                  <div class="preview-item-content">
+                    <h6 class="preview-subject font-weight-medium">Settings</h6>
+                    <p class="font-weight-light small-text mb-0">
+                      Private message
+                    </p>
+                  </div>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-info">
+                      <i class="mdi mdi-account-box mx-0"></i>
+                    </div>
+                  </div>
+                  <div class="preview-item-content">
+                    <h6 class="preview-subject font-weight-medium">New user registration</h6>
+                    <p class="font-weight-light small-text mb-0">
+                      2 days ago
+                    </p>
+                  </div>
+                </a>
+              </div>
+            </li>
+            <li class="nav-item nav-profile dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                <img src="https://via.placeholder.com/30x30" alt="profile"/>
+                <span class="nav-profile-name">Admin</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                <a class="dropdown-item">
+                  <i class="mdi mdi-settings text-primary"></i>
+                  Settings
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item">
+                  <i class="mdi mdi-logout text-primary"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+            <li class="nav-item nav-toggler-item-right d-lg-none">
+              <button class="navbar-toggler align-self-center" type="button" data-toggle="offcanvas">
+                <span class="mdi mdi-menu"></span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">
+                <i class="mdi mdi-view-quilt menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'car_list' %}">
+                <i class="mdi mdi-car menu-icon"></i>
+                <span class="menu-title">Cars</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"  href="{% url 'lead_list' %}" >
+                <i class="mdi mdi-chart-bar menu-icon"></i>
+                <span class="menu-title">Leads</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'cust_list' %}">
+                <i class="mdi mdi-account-multiple menu-icon"></i>
+                <span class="menu-title">Customers</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="{% url 'sold_cars' %}" aria-expanded="false" aria-controls="form-elements">
+                <i class="mdi mdi-cash-multiple menu-icon"></i>
+                <span class="menu-title">Sold Cars</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'all_rep' %}">
+              <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+              <span class="menu-title">Reports</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                    <!-- <div class="col-md-6">
+                      <h4 class="card-title float-left">Data table</h4>
+                    </div> -->
+                    <div class="col-12 ">
+                      <div class="row">
+                        <div class="col float-left">
+                          <h2>Leads</h2>
+                        </div>
+                        <div class="col ">
+                          <a class="btn btn-outline-primary  mb-3 float-right" href="{% url 'add_lead' %}">Add</a>
+                          <!-- <a class="btn btn-outline-primary  mb-3 ml-3" href="#">Offer Price</a> -->
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table text-center">
+                        <thead>
+                          <tr>
+                              <th>No:</th>
+                              <th>Lead Name</th>
+                              <th>Email</th>
+                              <th>Cars</th>
+                              <th>Phone</th>
+                              <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for x in lead reversed %}
+                          <form method="post">
+                          {% csrf_token %}
+                          <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ x.LeadName }}</td>
+                            <td>{{ x.LeadEmail }}</td>
+                            <td>{{ x.Choices }}</td>
+                            <td>{{ x.LeadMobile }}</td>
+                            <td>
+                              <a class="view-btn" href="{% url 'lead_view' x.LeadID %}"><i class="mdi mdi-eye"></i></a>
+
+                              <a class="edit-btn" href="{% url 'lead_update' x.LeadID %}"><i class="mdi mdi-pencil-box-outline menu-icon"></i></a>
+                              
+                              <a class="convert-btn" href="javascript:void(0)" onclick="myFunction('{{ x.LeadID }}')"><i class="mdi mdi-account-convert"></i></a>
+                              
+                              <a class="delete-btn" href="{% url 'lead_delete' x.LeadID %}"><i class="mdi mdi-delete"></i></a>
+                            </td>
+                          </tr>
+                          </form>
+
+                          {% endfor %}
+                          <!-- <tr>
+                            <td>2</td>
+                            <td>Deep Patel</td>
+                            <td>10/06/2021</td>
+                            <td>BMW</td>
+                            <td>grdhb</td>
+                            <td>
+                              <a class="view-btn" href="lead-view.html"><i class="mdi mdi-eye"></i></a>
+                              <a class="edit-btn" href="lead-details.html"><i class="mdi mdi-pencil-box-outline menu-icon"></i></a>
+                              <a class="convert-btn"><i class="mdi mdi-account-convert"></i></a>
+                              <input type="submit" name="submit" value="Convert" class="btn btn-outline-primary">
+                              <a class="delete-btn"><i class="mdi mdi-delete"></i></a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>3</td>
+                            <td>Ayushi Amin</td>
+                            <td>19/09/2021</td>
+                            <td>Ford</td>
+                            <td>dhgsfm</td>
+                            <td>
+                              <a class="view-btn" href="lead-view.html"><i class="mdi mdi-eye"></i></a>
+                              <a class="edit-btn" href="lead-details.html"><i class="mdi mdi-pencil-box-outline menu-icon"></i></a>
+                              <a class="convert-btn"><i class="mdi mdi-account-convert"></i></a>
+                              <input type="submit" name="submit" value="Convert" class="btn btn-outline-primary">
+                              <a class="delete-btn"><i class="mdi mdi-delete"></i></a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>4</td>
+                            <td>Deep Patel</td>
+                            <td>10/06/2021</td>
+                            <td>BMW</td>
+                            <td>grdhb</td>
+                            <td>
+                              <a class="view-btn" href="lead-view.html"><i class="mdi mdi-eye"></i></a>
+                              <a class="edit-btn" href="lead-details.html"><i class="mdi mdi-pencil-box-outline menu-icon"></i></a>
+                              <a class="convert-btn"><i class="mdi mdi-account-convert"></i></a>
+                              <input type="submit" name="submit" value="Convert" class="btn btn-outline-primary">
+                              <a class="delete-btn"><i class="mdi mdi-delete"></i></a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>5</td>
+                            <td>Ayushi Amin</td>
+                            <td>19/09/2021</td>
+                            <td>Ford</td>
+                            <td>dhgsfm</td>
+                            <td>
+                              <a class="view-btn" href="lead-view.html"><i class="mdi mdi-eye"></i></a>
+                              <a class="edit-btn" href="lead-details.html"><i class="mdi mdi-pencil-box-outline menu-icon"></i></a>
+                              <a class="convert-btn"><i class="mdi mdi-account-convert"></i></a>
+                              <input type="submit" name="submit" value="Convert" class="btn btn-outline-primary">
+                              <a class="delete-btn"><i class="mdi mdi-delete"></i></a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>6</td>
+                            <td>Deep Patel</td>
+                            <td>10/06/2021</td>
+                            <td>BMW</td>
+                            <td>grdhb</td>
+                            <td>
+                              <a class="view-btn" href="lead-view.html"><i class="mdi mdi-eye"></i></a>
+                              <a class="edit-btn" href="lead-details.html"><i class="mdi mdi-pencil-box-outline menu-icon"></i></a>
+                              <a class="convert-btn"><i class="mdi mdi-account-convert"></i></a>
+                              <input type="submit" name="submit" value="Convert" class="btn btn-outline-primary">
+                              <a class="delete-btn"><i class="mdi mdi-delete"></i></a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>7</td>
+                            <td>Ayushi Amin</td>
+                            <td>19/09/2021</td>
+                            <td>Ford</td>
+                            <td>dhgsfm</td>
+                            <td>
+                              <a class="view-btn" href="lead-view.html"><i class="mdi mdi-eye"></i></a>
+                              <a class="edit-btn" href="lead-details.html"><i class="mdi mdi-pencil-box-outline menu-icon"></i></a>
+                              <a class="convert-btn"><i class="mdi mdi-account-convert"></i></a>
+                              <input type="submit" name="submit" value="Convert" class="btn btn-outline-primary">
+                              <a class="delete-btn"><i class="mdi mdi-delete"></i></a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>8</td>
+                            <td>Deep Patel</td>
+                            <td>10/06/2021</td>
+                            <td>BMW</td>
+                            <td>grdhb</td>
+                            <td>
+                              <a class="view-btn" href="lead-view.html"><i class="mdi mdi-eye"></i></a>
+                              <a class="edit-btn" href="lead-details.html"><i class="mdi mdi-pencil-box-outline menu-icon"></i></a>
+                              <a class="convert-btn"><i class="mdi mdi-account-convert"></i></a>
+                              <input type="submit" name="submit" value="Convert" class="btn btn-outline-primary">
+                              <a class="delete-btn"><i class="mdi mdi-delete"></i></a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>9</td>
+                            <td>Ayushi Amin</td>
+                            <td>19/09/2021</td>
+                            <td>Ford</td>
+                            <td>dhgsfm</td>
+                            <td>
+                              <a class="view-btn" href="lead-view.html"><i class="mdi mdi-eye"></i></a>
+                              <a class="edit-btn" href="lead-details.html"><i class="mdi mdi-pencil-box-outline menu-icon"></i></a>
+                              <a class="convert-btn"><i class="mdi mdi-account-convert"></i></a>
+                              <input type="submit" name="submit" value="Convert" class="btn btn-outline-primary">
+                              <a class="delete-btn"><i class="mdi mdi-delete"></i></a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>10</td>
+                            <td>Deep Patel</td>
+                            <td>10/06/2021</td>
+                            <td>BMW</td>
+                            <td>grdhb</td>
+                            <td>
+                              <a class="view-btn" href="lead-view.html"><i class="mdi mdi-eye"></i></a>
+                              <a class="edit-btn" href="lead-details.html"><i class="mdi mdi-pencil-box-outline menu-icon"></i></a>
+                              <a class="convert-btn"><i class="mdi mdi-account-convert"></i></a> -->
+                              <!-- <input type="submit" name="submit" value="Convert" class="btn btn-outline-primary">
+                              <a class="delete-btn"><i class="mdi mdi-delete"></i></a>
+                            </td>
+                          </tr> -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021 <a href="https://www.helicoreinfo.com/" target="_blank">Helicore</a>. All rights reserved.</span>
+              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="converModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Enter Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="color: red;">{{ msg }}</p>
+        <form name="lead_to_cus" id="lead_to_cus" method="post" action="{% url 'lead_convert' %}">
+          {% csrf_token %}
+          <input type="hidden" name="lead_id" id="lead_id">
+          <div class="form-group">
+            <label for="car_name">Car Name</label>
+            <input type="text" name="car_name" id="car_name" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="text" name="amount" id="amount" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="amount">Car RegNo</label>
+            <input type="text" name="RegNo" id="RegNo" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" name="date" class="form-control">
+          </div>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" name="submit" class="btn btn-primary">Save changes</button>
+          
+        </form>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+    <script>
+      function myFunction(car) {
+        $('#lead_to_cus #lead_id').val(car);
+        $('#converModel').modal();
+        // var txt;
+        // var person = prompt("Enter Purchased car name:");
+        // if (person == null || person == "") {
+        //   txt = "User cancelled the prompt.";
+        // } else {
+        //   txt = "Hello " + person + "! How are you today?";
+        // }
+        // document.getElementById("car"+car).value = person;
+      }
+    </script>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="../static/app/assets/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <script src="../static/app/assets/datatables.net/jquery.dataTables.js"></script>
+    <script src="../static/app/assets/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="../static/app/assets/js/index.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="../static/app/assets/js/data-table.js"></script>
+    <!-- End custom js for this page-->
+  </body>
+</html>
