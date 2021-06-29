@@ -100,7 +100,7 @@
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                 <img src="https://via.placeholder.com/30x30" alt="profile"/>
-                <span class="nav-profile-name">Admin</span>
+                <span class="nav-profile-name">{{ user }}</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                 <a class="dropdown-item">
@@ -108,7 +108,7 @@
                   Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item">
+                <a class="dropdown-item" href="{% url 'logout' %}">
                   <i class="mdi mdi-logout text-primary"></i>
                   Logout
                 </a>
@@ -128,7 +128,7 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
             <li class="nav-item">
-              <a class="nav-link" href="index.html">
+              <a class="nav-link" href="{% url 'index' %}">
                 <i class="mdi mdi-view-quilt menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
               </a>
@@ -152,9 +152,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="collapse" href="{% url 'sold_cars' %}" aria-expanded="false" aria-controls="form-elements">
-                <i class="mdi mdi-cash-multiple menu-icon"></i>
-                <span class="menu-title">Sold Cars</span>
+              <a class="nav-link" href="{% url 'sold_cars' %}">
+              <i class="mdi mdi-cash-multiple menu-icon"></i>
+              <span class="menu-title">Sold Cars</span>
               </a>
             </li>
             <li class="nav-item">
@@ -203,6 +203,7 @@
                         <thead>
                           <tr>
                               <th>No:</th>
+                              <th>Date</th>
                               <th>Car Name</th>
                               <th>Customer Name</th>
                               <th>Reg. No.</th>
@@ -214,6 +215,7 @@
                           {% for x in sold_details %}
                           <tr>
                               <td>{{ forloop.counter }}</td>
+                              <td>{{ x.Date }}</td>
                               <td>{{ x.CarName }}</td>
                               <td>{{ x.CurrentCust }}</td>
                               <td>{{ x.RegNo }}</td>

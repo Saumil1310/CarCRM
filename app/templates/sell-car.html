@@ -19,7 +19,7 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="" />
 
-    <!-- <link rel="stylesheet" type="text/css" href="../static/app/aseets/css/example-styles.css"> -->
+    <link rel="stylesheet" type="text/css" href="../static/app/aseets/css/example-styles.css">
     <!-- <link rel="stylesheet" type="text/css" href="demo-styles.css"> -->
   </head>
 
@@ -138,33 +138,33 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'car_list' %}">
+              <a class="nav-link" href="car.html">
                 <i class="mdi mdi-car menu-icon"></i>
                 <span class="menu-title">Cars</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link"  href="{% url 'lead_list' %}" >
+              <a class="nav-link"  href="leads.html" >
                 <i class="mdi mdi-chart-bar menu-icon"></i>
                 <span class="menu-title">Leads</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'cust_list' %}">
+              <a class="nav-link" href="customer.html">
                 <i class="mdi mdi-account-multiple menu-icon"></i>
                 <span class="menu-title">Customers</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="collapse" href="{% url 'sold_cars' %}" aria-expanded="false" aria-controls="form-elements">
+              <a class="nav-link" href="sold.html">
                 <i class="mdi mdi-cash-multiple menu-icon"></i>
                 <span class="menu-title">Sold Cars</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'all_rep' %}">
-              <i class="mdi mdi-file-document-box-outline menu-icon"></i>
-              <span class="menu-title">Reports</span>
+              <a class="nav-link" href="reports.html">
+                <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+                <span class="menu-title">Reports</span>
               </a>
             </li>
           </ul>
@@ -187,13 +187,12 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="container">
-                      <form method="post" autocomplete="off" name="sell_to_cus" id="sell_to_cus">
-                        {% csrf_token %}
+                      <form method="post">
+                        {%csrf_token}
                         <div class="row">
                           <div class="col">
                             <label>Name</label>
-                            <input type="text" id="lead_name" name="name" class="form-control">
-                            <div class="prelist"></div>
+                            <input type="text" name="name" class="form-control">
                           </div>
                           <div class="col">
                             <label>Email</label>
@@ -233,16 +232,16 @@
 						     <label class="form-check-label">Payments</label>
 	                            <div class="form-check-inline ml-3">
 	                              	<label class="form-check-label" for="radio1">
-	                                	<input type="radio" name="answer" value="Cash" class="mr-1" />Cash<br>
+	                                	<input type="radio" name="answer" value="cash" class="mr-1" />Cash<br>
 	    							</label>
 	                              	<label class="form-check-label ml-3" for="radio2">
-	                                	<input type="radio" name="answer" value="Finance" class="mr-1" />Finance<br>
+	                                	<input type="radio" name="answer" value="finance" class="mr-1" />Finance<br>
 	    							</label>
 
 								</div>
 								<div class="row pl-3 mt-3">
-									<input style="display:none;" type="text" name="Cash" id="Cash" value="Paid Value" class="form-control form-control-lg mr-5" />
-	                              	<input style="display:none;" type="text" name="Finance" id="Finance" value="Deposite Value" class="form-control form-control-lg mr-5"/>
+									<input style="display:none;" type="text" name="cash" id="cash" value="Paid Value" class="form-control form-control-lg mr-5" />
+	                              	<input style="display:none;" type="text" name="finance" id="finance" value="Deposite Value" class="form-control form-control-lg mr-5"/>
 	                            </div>
 						    </div>
 						    <div class="col">
@@ -297,46 +296,8 @@
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src="../static/app/assets/js/vendor.bundle.base.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page-->
-    <script>
-     $('#lead_name').keyup(function(){
-        var lead_name = $(this).val();
-        
-        if($.trim(lead_name)!=''){
-            $.ajax({
-                url :"/lead_names/",
-                type : 'POST',
-                dataType : 'json',
-                data:{'lead_name':lead_name},
-                success:function(res){
-                    // $('.prelist').html(res);
-                    // $('.prelist').show();
-                    // $('.clg-select-item').click(function(){
-                    //     var name = $('.clg-select-item').data('name');
-                    //     var address = $('.clg-select-item').data('address');
-                    //     var email = $('.clg-select-item').data('email');
-                    //     var contact = $('.clg-select-item').data('contact');
-                    //     var gstin = $('.clg-select-item').data('gstin');
-                    //     var id = $('.clg-select-item').data('id');
-                    //     $('#invoceInfo_id').val(id);
-                    //     $('#bill_to').val(name);
-                    //     $('#address').val(address);
-                    //     $('#email').val(email);
-                    //     $('#contact_no').val(contact);
-                    //     $('#gstin').val(gstin);
-                    //     $('.prelist').hide();     
-                    // })
-                    
-                }
-            })
-        }
-      })
-     </script>
-
     <script src="../static/app/assets/datatables.net/jquery.dataTables.js"></script>
     <script src="../static/app/assets/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script src="../static/app/assets/dropify/dropify.min.js"></script>
@@ -347,7 +308,7 @@
     <script src="../static/app/assets/js/dropdown.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page-->
-    <script src="../static/app/assets/js/data-table.js"></script>
+    <script src="../static/app/../static/app/assets/js/data-table.js"></script>
     <script src="../static/app/assets/js/dropify.js"></script>
     <!-- End custom js for this page-->
 

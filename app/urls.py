@@ -19,6 +19,7 @@ urlpatterns=[
 	path('sold_cars/', views.sold_cars, name='sold_cars'),
 	path('admin_reg/', views.admin_register, name='admin_reg'),
 	path('admin_login/', views.admin_login, name='admin_login'),
+	path('logout/',views.logout,name='logout'),
 	path('all_rep/', views.all_rep, name='all_rep'),
 	path('sales/', views.sales, name='sales'),
 	path('sales_rep/', views.sales_rep.as_view(), name='sales_rep'),
@@ -31,5 +32,6 @@ urlpatterns=[
 	path('ledger/', views.ledger, name='ledger'),
 	path('ledger_rep/', views.ledger_rep.as_view(), name='ledger_rep'),
 	path('sell_car?id=<id>', views.sell_car, name='sell_car'),
+	path('index/', views.index, name='index'),
 	# path('ajax_sell/', views.ajax_sell, name='ajax_sell'),
 ]

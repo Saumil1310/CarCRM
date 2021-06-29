@@ -44,6 +44,7 @@
                   <thead>
                     <tr>
                       <th>No.</th>
+                      <th>Date</th>
                       <th>Car Name</th>
                       <th>Reg No.</th>
                       <th>Car Model</th>
@@ -54,10 +55,11 @@
                 {% for x in Inventory %}
                 <tr style="text-align: center;">
                     <td>{{ forloop.counter }}</td>
+                    <td>{{ x.Date }}</td>
                     <td>{{ x.CarName }}</td>
-                    <td>{{x.RegNo}}</td>
-                    <td>{{x.CarModel}}</td>
-                    <td>{{x.FinalPrice}}</td>
+                    <td>{{ x.RegNo }}</td>
+                    <td>{{ x.CarModel }}</td>
+                    <td>{{ x.FinalPrice }}</td>
                     <td>{{ x.KWNo }}</td>
                 </tr>
                 {% endfor %}

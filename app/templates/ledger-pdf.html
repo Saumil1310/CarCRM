@@ -52,11 +52,11 @@
                           </tr>
                           {% for x in sold_details %}
                           <tr style="text-align: center;">
-                              <td>{{x.Date}}</td>
+                              <td>{{ x.Date }}</td>
                               <td>{{ x.CarName }}</td>
                               <td>{{ x.RegNo }}</td>
                               <td>{{ x.KWNo }}</td>
-                              <td>{{x.Vtype}}</td>
+                              <td>{{ x.Vtype }}</td>
                               <td>{{ x.Amount }}</td>
                               <td>{{ x.FinalPrice }}</td>
                           </tr>
@@ -64,7 +64,7 @@
                       </table>
                       <hr class='hrItem' />
                       Total Credit: {{ credit }}<br>
-                      Total Debit: {{ debit }}
+                      Total Credit: {{ debit }}
               </div>
             </div>
           </div>

@@ -102,7 +102,7 @@
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                 <img src="https://via.placeholder.com/30x30" alt="profile"/>
-                <span class="nav-profile-name">Admin</span>
+                <span class="nav-profile-name">{{ user }}</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                 <a class="dropdown-item">
@@ -110,7 +110,7 @@
                   Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item">
+                <a class="dropdown-item" href="{% url 'logout' %}">
                   <i class="mdi mdi-logout text-primary"></i>
                   Logout
                 </a>
@@ -130,7 +130,7 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
             <li class="nav-item">
-              <a class="nav-link" href="index.html">
+              <a class="nav-link" href="{% url 'index' %}">
                 <i class="mdi mdi-view-quilt menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
               </a>
@@ -154,9 +154,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="collapse" href="{% url 'sold_cars' %}" aria-expanded="false" aria-controls="form-elements">
-                <i class="mdi mdi-cash-multiple menu-icon"></i>
-                <span class="menu-title">Sold Cars</span>
+              <a class="nav-link" href="{% url 'sold_cars' %}">
+              <i class="mdi mdi-cash-multiple menu-icon"></i>
+              <span class="menu-title">Sold Cars</span>
               </a>
             </li>
             <li class="nav-item">
@@ -191,7 +191,7 @@
                         </div>
                         <div class="col">
                           <label>Date</label>
-                          <input type="date" name="date" value="{{ x.Date }}" class="form-control">
+                          <input type="date" name="date" value='{{x.Date|date:"Y-m-d" }}' class="form-control">
                         </div>
                         <div class="col">
                           <label>Car Model</label>
@@ -243,22 +243,27 @@
           <!-- Documentation Start-->
           <div class="content-wrapper">
             <div class="row">
+              {% for x in car_doc %}
               <div class="col-lg-6 grid-margin">
                 <div class="card">
                   <h2 class="pl-3 mt-3">Documentation</h2>
                   <div class="card-body">
                     <div class="field_wrapper">
                       <div class="row field_html">
-                        <input type="text" name="doc[]" placeholder="  Document Description" class="mr-2 ml-3">
-                        <input type="file"  name="docfile[]" class="dropify"/>
-                        <!-- <input type="text" name="field_name[]" value=""/> -->
+                        <input type="text" name="doc[]" placeholder="  Document Description" class="mr-2 ml-3" value="{{ x.DocDescription }}">
+                        <input type="text" name="docfile1[]" value="{{ x.Doc }}" hidden>
+                        <input type="file"  name="docfile[]" class="dropify" data-default-file="../media/{{ x.Doc }}"/>
+                        <!-- <input type="text" name="field_name[]" value=""/>
                         <a href="javascript:void(0);" class="add_button btn-duplicator" title="Add field"><img src="../static/app/assets/img/add-icon.png" class="pl-5 mt-5"></a>
                       </div>
                     </div>
-                    <!-- <a class="btn btn-outline-primary mt-3" href="#">Expense</a> -->
+                     <a class="btn btn-outline-primary mt-3" href="#">Expense</a> -->
                   </div>
-                </div>
+                </div> 
               </div>
+            </div>
+          </div>
+              {% endfor %}
             <!-- Addition With Button -->
             {% for x in car_detail %}
             <div class="col-lg-6 grid-margin stretch-card">
@@ -443,7 +448,7 @@
     <script src="../static/app/assets/js/data-table.js"></script>
     <script src="../static/app/js/dropify.js"></script>
     <!-- Add on js for button-->
-    
+    {% for x in car_doc %}
     <script type="text/javascript">
       $(document).ready(function(){
       var maxField = 10; //Input fields increment limitation
@@ -490,5 +495,6 @@ function sum() {
         // document.getElementById('subt').value = result1;
             }
         }</script>
+      {% endfor %}
   </body>
 </html>

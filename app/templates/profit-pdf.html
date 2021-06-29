@@ -44,6 +44,7 @@
                   <thead>
                     <tr>
                     <th>No:</th>
+                    <th>Date</th>
                     <th>Car Name</th>
                     <th>Customer Name</th>
                     <th>Reg No</th>
@@ -53,6 +54,7 @@
                 {% for x in sold_details %}
                 <tr style="text-align: center;">
                     <td>{{ forloop.counter }}</td>
+                    <td>{{ x.Date }}</td>
                     <td>{{ x.CarName }}</td>
                     <td>{{ x.CurrentCust }}</td>
                     <td>{{ x.RegNo }}</td>
