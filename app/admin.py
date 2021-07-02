@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import InventoryMaster,CarDocMaster,LeadMaster,CustomerMaster,AdminMaster,SoldCarsMaster,LeadgerMaster
+from .models import InventoryMaster,CarDocMaster,LeadMaster,CustomerMaster,AdminMaster,SoldCarsMaster,LeadgerMaster,ExpenseMaster
+
 
 # Register your models here.
 
@@ -14,4 +15,4 @@ admin.site.register(CarDocMaster,ModelField(CarDocMaster))
 admin.site.register(AdminMaster,ModelField(AdminMaster))
 admin.site.register(SoldCarsMaster,ModelField(SoldCarsMaster))
 admin.site.register(LeadgerMaster,ModelField(LeadgerMaster))
-
+admin.site.register(ExpenseMaster,ModelField(ExpenseMaster))

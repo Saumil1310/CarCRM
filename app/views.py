@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import InventoryMaster, CarDocMaster, LeadMaster, CustomerMaster, AdminMaster, SoldCarsMaster, \
-    LeadgerMaster
+    LeadgerMaster, ExpenseMaster
 from .forms import InventoryForm, LeadForm, AdminForm
 from django.http import HttpResponse
 from django.views.generic import View
@@ -118,6 +118,14 @@ def inventory(request):
             LeadgerMaster.objects.create(Date=request.POST['date'], CarName=request.POST.get('cname'),
                                          RegNo=request.POST.get('reg_no'), KWNo=kw_no, FinalPrice=Purchase_price,
                                          Vtype='Buy')
+            ############################
+            ExpenseMaster.objects.create(CarName=request.POST.get('cname'), CarModel=request.POST.get('cmodel'),
+                                         RegNo=request.POST.get('reg_no'), KWNo=kw_no, Date=request.POST['date'],
+                                         BodyShop_Amount=request.POST.get('bodyshop'),
+                                         Mechanic_Amount=request.POST.get('mechanic'),
+                                         MOT_Amount=request.POST.get('mot'),
+                                         Travelling_Amount=request.POST.get('travelling'),
+                                         Fuel_Amount=request.POST.get('fuel'), Total_Expenses=total_expence)
             return redirect('car_list')
         return render(request, 'car-details1.html', context)
     else:
@@ -145,6 +153,9 @@ def car_view(request, id):
         context['user'] = user
         car_detail = InventoryMaster.objects.filter(CarID=id).values()
         context['car_detail'] = car_detail
+        car_regno = InventoryMaster.objects.filter(CarID=id).values('RegNo')[0]['RegNo']
+        car_doc = CarDocMaster.objects.filter(RegNo=car_regno).values()
+        context['car_doc'] = car_doc
         return render(request, 'car-view.html', context)
     else:
         return redirect('admin_login')
@@ -210,6 +221,17 @@ def update_car(request, id):
             Final_buyprice.append(int(total_expence))
             Purchase_price = sum(Final_buyprice)
             InventoryMaster.objects.filter(CarID=id).update(FinalPrice=Purchase_price)
+            ##########################
+            ExpenseMaster.objects.filter(RegNo=car_regno).update(CarName=request.POST.get('cname'),
+                                                                 CarModel=request.POST.get('cmodel'),
+                                                                 RegNo=request.POST.get('reg_no'),
+                                                                 Date=request.POST['date'],
+                                                                 BodyShop_Amount=request.POST.get('bodyshop'),
+                                                                 Mechanic_Amount=request.POST.get('mechanic'),
+                                                                 MOT_Amount=request.POST.get('mot'),
+                                                                 Travelling_Amount=request.POST.get('travelling'),
+                                                                 Fuel_Amount=request.POST.get('fuel'),
+                                                                 Total_Expenses=total_expence)
             return redirect('car_list')
         return render(request, 'car-update.html', context)
     else:
@@ -217,8 +239,9 @@ def update_car(request, id):
 
 
 # Delete Car
-def car_delete(request, id):
-    InventoryMaster.objects.filter(CarID=id).delete()
+def car_delete(request):
+    if request.POST:
+        InventoryMaster.objects.filter(CarID=request.POST['car_id']).delete()
     return redirect('car_list')
 
 
@@ -243,6 +266,7 @@ def add_lead(request):
                                       Choices=my_cars_string, Payment=request.POST['optradio'],
                                       OfferPrice=request.POST.get('sell-price'), Comment=request.POST.get('comment'),
                                       Date=request.POST['date'], IsActive=1)
+            return redirect('lead_list')
         return render(request, 'lead-details.html', context)
     else:
         return redirect('admin_login')
@@ -315,8 +339,9 @@ def lead_update(request, id):
 
 
 # Delete Lead
-def lead_delete(request, id):
-    LeadMaster.objects.filter(LeadID=id).delete()
+def lead_delete(request):
+    if request.POST:
+        LeadMaster.objects.filter(LeadID=request.POST['lead_id']).delete()
     return redirect('lead_list')
 
 
@@ -330,9 +355,8 @@ def lead_convert(request):
             lead_data = LeadMaster.objects.filter(LeadID=request.POST['lead_id']).values()[0]
             CustomerMaster.objects.create(CustName=lead_data['LeadName'], CustEmail=lead_data['LeadEmail'],
                                           CustMobile=lead_data['LeadMobile'], PurchasedCar=request.POST['car_name'],
-                                          Amount=request.POST['amount'], OfferPrice=lead_data['OfferPrice'],
-                                          Payment=lead_data['Payment'], Comment=lead_data['Comment'],
-                                          Date=request.POST['date'], IsActive=1)
+                                          Amount=request.POST['amount'], Payment=lead_data['Payment'],
+                                          Comment=lead_data['Comment'], Date=request.POST['date'], IsActive=1)
             car_data = InventoryMaster.objects.filter(RegNo=request.POST['RegNo']).values()[0]
             total_exp = InventoryMaster.objects.filter(RegNo=request.POST['RegNo']).values()[0]
             total_exp_list = []
@@ -388,8 +412,9 @@ def cust_view(request, id):
 
 
 # Delete Customer
-def cust_delete(request, id):
-    CustomerMaster.objects.filter(CustID=id).delete()
+def cust_delete(request):
+    if request.POST:
+        CustomerMaster.objects.filter(CustID=request.POST['cust_id']).delete()
     return redirect('cust_list')
 
 
@@ -402,6 +427,19 @@ def sold_cars(request):
         sold_cars = SoldCarsMaster.objects.all()
         context['sold_cars'] = sold_cars
         return render(request, 'sold-cars.html', context)
+    else:
+        return redirect('admin_login')
+
+
+# Sold Cars View
+def sold_view(request, id):
+    if 'login' in request.session:
+        context = {}
+        user = request.session['user_name']
+        context['user'] = user
+        sold_cars = SoldCarsMaster.objects.filter(SoldID=id).values()
+        context['sold_cars'] = sold_cars
+        return render(request, 'sold-view.html', context)
     else:
         return redirect('admin_login')
 
@@ -424,10 +462,12 @@ def sales(request):
         user = request.session['user_name']
         context['user'] = user
         if request.POST:
+            print(request.POST)
             s_d = SoldCarsMaster.objects.filter(Date__range=[request.POST['f_date'], request.POST['t_date']]).values()
             context['s_d'] = s_d
             request.session['from'] = request.POST['f_date']
             request.session['to'] = request.POST['t_date']
+            return render(request, 'sales-report2.html', context)
         return render(request, 'sales-report.html', context)
     else:
         return redirect('admin_login')
@@ -462,11 +502,13 @@ def expense(request):
         user = request.session['user_name']
         context['user'] = user
         if request.POST:
+            print(request.POST['f_date'])
             request.session['from'] = request.POST['f_date']
             request.session['to'] = request.POST['t_date']
-            expense_details = InventoryMaster.objects.filter(
+            expense_details = ExpenseMaster.objects.filter(
                 Date__range=[request.POST['f_date'], request.POST['t_date']]).values()
             context['expense_details'] = expense_details
+            return render(request, 'expense-report2.html', context)
         return render(request, 'expense-report.html', context)
     else:
         return redirect('admin_login')
@@ -480,7 +522,7 @@ class exp_rep(View):
         context['from_date'] = from_date
         to_date = request.session['to']
         context['to_date'] = to_date
-        expense_details = InventoryMaster.objects.filter(Date__range=[from_date, to_date]).values()
+        expense_details = ExpenseMaster.objects.filter(Date__range=[from_date, to_date]).values()
         context['expense_details'] = expense_details
         counter = collections.Counter()
         total = []
@@ -506,6 +548,7 @@ def profit(request):
             sold_details = SoldCarsMaster.objects.filter(
                 Date__range=[request.POST['f_date'], request.POST['t_date']]).values()
             context['sold_details'] = sold_details
+            return render(request, 'profit-report2.html', context)
         return render(request, 'profit-report.html', context)
     else:
         return redirect('admin_login')
@@ -542,8 +585,11 @@ def inventory_rep(request):
         if request.POST:
             request.session['from'] = request.POST['f_date']
             request.session['to'] = request.POST['t_date']
-            Inventory = InventoryMaster.objects.all().values('CarName', 'CarModel', 'RegNo', 'FinalPrice', 'KWNo')
+            Inventory = InventoryMaster.objects.filter(
+                Date__range=[request.POST['f_date'], request.POST['t_date']]).values('CarName', 'CarModel', 'RegNo',
+                                                                                     'FinalPrice', 'KWNo', 'Date')
             context['Inventory'] = Inventory
+            return render(request, 'inventory-report2.html', context)
         return render(request, 'inventory-report.html', context)
     else:
         return redirect('admin_login')
@@ -557,7 +603,9 @@ class Inventory_rep(View):
         context['from_date'] = from_date
         to_date = request.session['to']
         context['to_date'] = to_date
-        Inventory = InventoryMaster.objects.all().values('CarName', 'CarModel', 'RegNo', 'FinalPrice', 'KWNo')
+        Inventory = InventoryMaster.objects.filter(Date__range=[from_date, to_date]).values('CarName', 'CarModel',
+                                                                                            'RegNo', 'FinalPrice',
+                                                                                            'KWNo', 'Date')
         context['Inventory'] = Inventory
         counter = collections.Counter()
         total = []
@@ -580,8 +628,10 @@ def ledger(request):
         if request.POST:
             request.session['from'] = request.POST['f_date']
             request.session['to'] = request.POST['t_date']
-            sold_details = LeadgerMaster.objects.all().values()
+            sold_details = LeadgerMaster.objects.filter(
+                Date__range=[request.POST['f_date'], request.POST['t_date']]).values()
             context['sold_details'] = sold_details
+            return render(request, 'ledger-report2.html', context)
         return render(request, 'ledger-report.html', context)
     else:
         return redirect('admin_login')
@@ -595,8 +645,7 @@ class ledger_rep(View):
         context['from_date'] = from_date
         to_date = request.session['to']
         context['to_date'] = to_date
-        sold_details = LeadgerMaster.objects.all().values()
-        # print(sold_details)
+        sold_details = LeadgerMaster.objects.filter(Date__range=[from_date, to_date]).values()
         context['sold_details'] = sold_details
         counter = collections.Counter()
         credit = []
@@ -618,26 +667,158 @@ class ledger_rep(View):
 
 # Sell This Car
 def sell_car(request, id):
-    context={}
-    # if request.is_ajax and request.method=="GET":
-    # 	print('HELLO')
-    # 	lead_data=LeadMaster.objects.all().values('LeadName')[0]['LeadName']
-    # 	context['lead_data']=lead_data
-
-    # return JsonResponse({"valid":lead_data}, status = 200)
+    if 'login' in request.session:
+        context = {}
+        user = request.session['user_name']
+        context['user'] = user
+        today_date = datetime.now()
+        today_date = today_date.today().strftime("%Y-%m-%d")
+        context['today_date'] = today_date
+        car_detail = InventoryMaster.objects.filter(CarID=id).values()[0]
+        context['car_detail'] = car_detail['CarName']
+        if request.POST:
+            print(request.POST)
+            if request.POST['payment'] == 'Cash':
+                CustomerMaster.objects.create(CustName=request.POST['name'], CustEmail=request.POST['email'],
+                                              CustMobile=request.POST['phone'], PurchasedCar=request.POST['slct_car'],
+                                              Amount=request.POST['amount'], CustAddress=request.POST['address'],
+                                              Payment=request.POST['payment'], Date=request.POST['date'],
+                                              PaidValue=request.POST['Cash2'], PaymentReciept=request.POST['receipt'],
+                                              IsActive=1)
+            else:
+                CustomerMaster.objects.create(CustName=request.POST['name'], CustEmail=request.POST['email'],
+                                              CustMobile=request.POST['phone'], PurchasedCar=request.POST['slct_car'],
+                                              Amount=request.POST['amount'], CustAddress=request.POST['address'],
+                                              Payment=request.POST['payment'], Date=request.POST['date'],
+                                              DepositeValue=request.POST['Finance'],
+                                              PaymentReciept=request.POST['receipt'], IsActive=1)
+            car_data = InventoryMaster.objects.filter(CarID=id).values()[0]
+            total_exp_list = []
+            total_exp_list.append(int(car_data['BuyPrice']))
+            total_exp_list.append(int(car_data['Total_Expenses']))
+            buy_exp = sum(total_exp_list)
+            profit = int(request.POST['amount']) - int(buy_exp)
+            SoldCarsMaster.objects.create(CarName=car_data['CarName'], OldCust=car_data['OldCust'],
+                                          CarModel=car_data['CarModel'], Mfg=car_data['Mfg'],
+                                          CarImage=car_data['CarImage'], RegNo=car_data['RegNo'],
+                                          Engine=car_data['Engine'], Milage=car_data['Milage'], KWNo=car_data['KWNo'],
+                                          BuyPrice=car_data['BuyPrice'], SellPrice=car_data['SellPrice'],
+                                          CurrentCust=request.POST['name'], Amount=request.POST['amount'],
+                                          Total_Expenses=car_data['Total_Expenses'], Buy_EXP=buy_exp, Profit=profit,
+                                          Date=request.POST['date'])
+            LeadgerMaster.objects.filter(RegNo=car_data['RegNo']).update(Date=request.POST['date'],
+                                                                         CarName=car_data['CarName'],
+                                                                         RegNo=car_data['RegNo'], KWNo=car_data['KWNo'],
+                                                                         Amount=request.POST['amount'], Vtype='Sales',
+                                                                         FinalPrice='0')
+            InventoryMaster.objects.filter(RegNo=car_data['RegNo']).delete()
+            LeadMaster.objects.filter(LeadEmail=request.POST['email']).delete()
+            return redirect('sold_cars')
     return render(request, 'sell-car.html', context)
-# Sell This Car
-# def sell_car(request, id):
-# if request.is_ajax and request.method=="GET":
-# 	print('HELLO')
-# 	lead_data=LeadMaster.objects.all().values('LeadName')[0]['LeadName']
-# 	context['lead_data']=lead_data
 
-# return JsonResponse({"valid":lead_data}, status = 200)
-# return render(request, 'sell-car.html', context)
 
-# def lead_names(request):
-# 	if request.is_ajax and request.method=="GET":
-# 		list_name=['RAJ','AA']
+def temp(request):
+    if request.method == 'POST':
+        lead_data = LeadMaster.objects.filter(LeadName__contains=request.POST['lead_name']).values()
+        html = "<ul class='list-unstyled pl-3 pr-3'>"
+        for x in lead_data:
+            html += "<li class='select-lead-name p-2 prelist-bottom' data-name=" + x['LeadName'] + " data-email=" + x[
+                'LeadEmail'] + " data-address=" + x['LeadAddress'] + " data-mobile=" + str(x['LeadMobile']) + "  >" + x[
+                        'LeadName'] + "</li>"
+        html += "</ul>"
+    return JsonResponse({"html": html}, status=200)
 
-# 	return JsonResponse({"valid":'lead_data'}, status = 200)
+
+# Invoice(Convert To Customer)
+def invoice(request, id):
+    if 'login' in request.session:
+        context = {}
+        user = request.session['user_name']
+        context['user'] = user
+        today_date = datetime.now()
+        today_date = today_date.today().strftime("%Y-%m-%d")
+        context['today_date'] = today_date
+        lead_data = LeadMaster.objects.filter(LeadID=id).values()
+        context['lead_data'] = lead_data
+        lead_details = LeadMaster.objects.filter(LeadID=id).values()[0]
+        if request.POST:
+            print(request.POST)
+            if request.POST['Cash2'] == '':
+                print('HELLO1')
+                CustomerMaster.objects.create(CustName=lead_details['LeadName'], CustEmail=lead_details['LeadEmail'],
+                                              CustMobile=lead_details['LeadMobile'],
+                                              PurchasedCar=request.POST['car_name'], Amount=request.POST['Cash1'],
+                                              Payment=request.POST['Payment'], Date=request.POST['date'],
+                                              PaidValue=request.POST['Cash1'], PaymentReciept=request.POST['receipt'],
+                                              IsActive=1)
+            else:
+                print('HELLO2')
+                CustomerMaster.objects.create(CustName=lead_details['LeadName'], CustEmail=lead_details['LeadEmail'],
+                                              CustMobile=lead_details['LeadMobile'],
+                                              PurchasedCar=request.POST['car_name'], Amount=request.POST['Cash2'],
+                                              Payment=request.POST['Payment'], Date=request.POST['date'],
+                                              PaidValue=request.POST['Cash2'], DepositeValue=request.POST['Finance'],
+                                              PaymentReciept=request.POST['receipt'], IsActive=1)
+            car_data = InventoryMaster.objects.filter(RegNo=request.POST['RegNo']).values()[0]
+            total_exp = InventoryMaster.objects.filter(RegNo=request.POST['RegNo']).values()[0]
+            total_exp_list = []
+            total_exp_list.append(int(car_data['BuyPrice']))
+            total_exp_list.append(int(total_exp['Total_Expenses']))
+            buy_exp = sum(total_exp_list)
+            if request.POST['Cash2'] == '':
+                profit = int(request.POST['Cash1']) - int(buy_exp)
+                SoldCarsMaster.objects.create(CarName=car_data['CarName'], OldCust=car_data['OldCust'],
+                                              CarModel=car_data['CarModel'], Mfg=car_data['Mfg'],
+                                              CarImage=car_data['CarImage'], RegNo=car_data['RegNo'],
+                                              Engine=car_data['Engine'], Milage=car_data['Milage'],
+                                              KWNo=car_data['KWNo'], BuyPrice=car_data['BuyPrice'],
+                                              SellPrice=car_data['SellPrice'], CurrentCust=lead_details['LeadName'],
+                                              Amount=request.POST['Cash1'], Total_Expenses=total_exp['Total_Expenses'],
+                                              Buy_EXP=buy_exp, Profit=profit, Date=request.POST['date'])
+                LeadgerMaster.objects.filter(RegNo=request.POST['RegNo']).update(Date=request.POST['date'],
+                                                                                 CarName=car_data['CarName'],
+                                                                                 RegNo=car_data['RegNo'],
+                                                                                 KWNo=car_data['KWNo'],
+                                                                                 Amount=request.POST['Cash1'],
+                                                                                 Vtype='Sales', FinalPrice='0')
+            else:
+                profit = int(request.POST['Cash2']) - int(buy_exp)
+                SoldCarsMaster.objects.create(CarName=car_data['CarName'], OldCust=car_data['OldCust'],
+                                              CarModel=car_data['CarModel'], Mfg=car_data['Mfg'],
+                                              CarImage=car_data['CarImage'], RegNo=car_data['RegNo'],
+                                              Engine=car_data['Engine'], Milage=car_data['Milage'],
+                                              KWNo=car_data['KWNo'], BuyPrice=car_data['BuyPrice'],
+                                              SellPrice=car_data['SellPrice'], CurrentCust=lead_details['LeadName'],
+                                              Amount=request.POST['Cash2'], Total_Expenses=total_exp['Total_Expenses'],
+                                              Buy_EXP=buy_exp, Profit=profit, Date=request.POST['date'])
+                LeadgerMaster.objects.filter(RegNo=request.POST['RegNo']).update(Date=request.POST['date'],
+                                                                                 CarName=car_data['CarName'],
+                                                                                 RegNo=car_data['RegNo'],
+                                                                                 KWNo=car_data['KWNo'],
+                                                                                 Amount=request.POST['Cash2'],
+                                                                                 Vtype='Sales', FinalPrice='0')
+            InventoryMaster.objects.filter(RegNo=request.POST['RegNo']).delete()
+            LeadMaster.objects.filter(LeadID=id).delete()
+            return redirect('lead_list')
+    return render(request, 'invoice.html', context)
+
+
+# def lead_ajax(request):
+# 	if request.method=='POST':
+# 		lead_data=LeadMaster.objects.filter(LeadName__contains=request.POST['lead_name']).values()
+# 		html = "<ul class='list-unstyled pl-3 pr-3'>"
+# 		for x in lead_data:
+# 			html+="<li class='select-lead-name p-2 prelist-bottom' data-name="+x['LeadName']+" data-email="+x['LeadEmail']+" data-address="+x['LeadAddress']+" data-mobile="+str(x['LeadMobile'])+"  >"+x['LeadName']+"</li>"
+# 		html += "</ul>"
+# 	return JsonResponse({"html":html}, status = 200)
+
+def car_ajax(request):
+    if request.method == 'POST':
+        car_data = InventoryMaster.objects.filter(RegNo__contains=request.POST['RegNo']).values()
+        html = "<ul class='list-unstyled pl-3 pr-3'>"
+        for x in car_data:
+            html += "<li class='select-car-name p-2 prelist-bottom' data-name=" + x['CarName'] + " data-reg=" + x[
+                'RegNo'] + " data-model=" + x['CarModel'] + " data-mfg=" + x['Mfg'] + " data-milage=" + x[
+                        'Milage'] + " data-engine=" + x['Engine'] + "  >" + x['RegNo'] + "</li>"
+        html += "</ul>"
+    return JsonResponse({"html": html}, status=200)

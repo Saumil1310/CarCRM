@@ -19,7 +19,7 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="" />
 
-    <link rel="stylesheet" type="text/css" href="../static/app/aseets/css/example-styles.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../static/app/aseets/css/example-styles.css"> -->
     <!-- <link rel="stylesheet" type="text/css" href="demo-styles.css"> -->
   </head>
 
@@ -34,7 +34,7 @@
                 <span class="mdi mdi-menu"></span>
               </button>
             </li>
-            <li class="nav-item nav-search d-none d-lg-flex">
+            <!-- <li class="nav-item nav-search d-none d-lg-flex">
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="search">
@@ -43,10 +43,14 @@
                 </div>
                 <input type="text" class="form-control" placeholder="search" aria-label="search" aria-describedby="search">
               </div>
-            </li>
+            </li> -->
           </ul>
+          <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo" href="index.html"><img src="../static/app/assets/img/logo.png"></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../static/app/assets/img/logo.png"></a>
+          </div>
           <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown">
+            <!-- <li class="nav-item dropdown">
               <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                 <i class="mdi mdi-bell-outline mx-0"></i>
                 <span class="count"></span>
@@ -100,19 +104,19 @@
                   </div>
                 </a>
               </div>
-            </li>
+            </li> -->
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                 <img src="https://via.placeholder.com/30x30" alt="profile"/>
-                <span class="nav-profile-name">Admin</span>
+                <span class="nav-profile-name">{{ user }}</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                <a class="dropdown-item">
+                <!-- <a class="dropdown-item">
                   <i class="mdi mdi-settings text-primary"></i>
                   Settings
-                </a>
+                </a> -->
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item">
+                <a class="{% url 'logout' %}">
                   <i class="mdi mdi-logout text-primary"></i>
                   Logout
                 </a>
@@ -132,37 +136,37 @@
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
             <li class="nav-item">
-              <a class="nav-link" href="index.html">
+              <a class="nav-link" href="{% url 'index' %}">
                 <i class="mdi mdi-view-quilt menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="car.html">
+              <a class="nav-link" href="{% url 'car_list' %}">
                 <i class="mdi mdi-car menu-icon"></i>
                 <span class="menu-title">Cars</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link"  href="leads.html" >
+              <a class="nav-link"  href="{% url 'lead_list' %}">
                 <i class="mdi mdi-chart-bar menu-icon"></i>
                 <span class="menu-title">Leads</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="customer.html">
+              <a class="nav-link" href="{% url 'cust_list' %}">
                 <i class="mdi mdi-account-multiple menu-icon"></i>
                 <span class="menu-title">Customers</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="sold.html">
+              <a class="nav-link" href="{% url 'sold_cars' %}">
                 <i class="mdi mdi-cash-multiple menu-icon"></i>
                 <span class="menu-title">Sold Cars</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="reports.html">
+              <a class="nav-link" href="{% url 'all_rep' %}">
                 <i class="mdi mdi-file-document-box-outline menu-icon"></i>
                 <span class="menu-title">Reports</span>
               </a>
@@ -170,8 +174,11 @@
           </ul>
         </nav>
         <!-- partial -->
+        
         <div class="main-panel">
           <!-- Price Start-->
+          <form method="post" name="sellcar_fr" id="sellcar_fr">
+            {% csrf_token %}
           <div class="content-wrapper">
             <h2 class="pl-3">Sell To Customer</h2>
             <!-- <div class="row">
@@ -187,32 +194,31 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="container">
-                      <form method="post">
-                        {%csrf_token}
                         <div class="row">
                           <div class="col">
                             <label>Name</label>
-                            <input type="text" name="name" class="form-control">
+                            <input type="text" name="name" id="lead_name" class="form-control" autocomplete="off">
+                            <div class="prelist"></div>
                           </div>
                           <div class="col">
                             <label>Email</label>
-                            <input type="text" name="email" class="form-control" disabled>
+                            <input type="text" name="email" id="email" class="form-control" readonly>
                           </div>
                         </div>
                         <div class="row mt-2">
                           <div class="col">
                             <label>Phone No:</label>
-                            <input type="text" name="phone" class="form-control" disabled>
+                            <input type="text" name="phone" id="phone" class="form-control" readonly>
                           </div>
                           <div class="col">
                             <label>Date</label>
-                            <input type="date" name="date" class="form-control">
+                            <input type="date" name="date" value='{{ today_date }}' class="form-control">
                           </div>
                         </div> 
                         <div class="row mt-2">
                           <div class="col">
                             <label>Address</label>
-                            <textarea rows="5" class="form-control" disabled></textarea>
+                            <textarea rows="5" name="address" id="address" class="form-control" readonly></textarea>
                           </div>
                         </div>
                         <div class="row mt-2">
@@ -220,7 +226,7 @@
                             <label>Purchase Value</label>
                             <div class="input-group-prepend">
                               <span class="input-group-text bg-primary text-white">£</span>
-                              <input type="text" name="sell-price" class="form-control">
+                              <input type="text" name="amount" class="form-control">
                               <div class="input-group-append">
                                 <span class="input-group-text">.00</span>
                               </div>
@@ -228,57 +234,49 @@
                           </div>
                         </div>
                         <div class="row mt-3">
-						    <div class="col">
-						     <label class="form-check-label">Payments</label>
-	                            <div class="form-check-inline ml-3">
-	                              	<label class="form-check-label" for="radio1">
-	                                	<input type="radio" name="answer" value="cash" class="mr-1" />Cash<br>
-	    							</label>
-	                              	<label class="form-check-label ml-3" for="radio2">
-	                                	<input type="radio" name="answer" value="finance" class="mr-1" />Finance<br>
-	    							</label>
-
-								</div>
-								<div class="row pl-3 mt-3">
-									<input style="display:none;" type="text" name="cash" id="cash" value="Paid Value" class="form-control form-control-lg mr-5" />
-	                              	<input style="display:none;" type="text" name="finance" id="finance" value="Deposite Value" class="form-control form-control-lg mr-5"/>
-	                            </div>
-						    </div>
-						    <div class="col">
-						    	<div class="row mt-2">
-						    		<input type="text" name="slct_car" value="Selected Car" class="form-control" disabled>
-						    		<!-- <select id="people" name="people" multiple >
-							            <option value="Ford" disabled>Ford</option>
-                                		<option value="BMW" disabled>BMW</option>
-                                		<option value="Maruti" disabled>Maruti</option>
-                                		<option value="Toyota" disabled>Toyota</option>
-                                		<option value="Audi" disabled>Audi</option>
-                                		<option value="Ford" disabled>Ford</option>
-                                		<option value="BMW" disabled>BMW</option>
-                                		<option value="Maruti" disabled>Maruti</option>
-                                		<option value="Toyota" disabled>Toyota</option>
-                                		<option value="Audi" disabled>Audi</option>
-							        </select> -->
-							    </div>
-							</div>
-						</div>
+                          <div class="col-6">
+                            <label class="form-check-label">Payments</label>
+                            <div class="form-check-inline ml-3">
+                              <label class="form-check-label" for="radio1">
+                                <input type="radio" name="payment" value="Cash" class="mr-1" />Cash<br>
+                              </label>
+                              <label class="form-check-label ml-3" for="radio2">
+                                <input type="radio" name="payment" value="Finance" class="mr-1" />Finance<br>
+                              </label>
+                            </div>
+                            <div class="row mt-2 pl-3">
+                              <div class="for_finance display-none">
+                                <input  type="text" name="Finance" id="Finance" placeholder="Deposite Value" class="form-control form-control-lg mr-5"/>
+                              </div>
+                              <div class="for_cash display-none">
+                                <input  type="text" name="Cash2" id="Cash" placeholder="Paid Value" class="form-control form-control-lg mr-5" /> 
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                             <div class="row mt-2">
+                              <div class="col-12">
+                                <input type="text" name="slct_car" value="{{ car_detail }}" class="form-control" readonly>
+                              </div>
+                            </div>
+                          </div>
+						            </div>
                        	<div class="row mt-3 pl-1">
                        		<div class="col">
 	                       		<label>Upload Payment Receipt</label>
-	                        	<input type="file" class="dropify"/>
+	                        	<input type="file" name="receipt" class="dropify"/>
                         	</div>
                         </div>
                         <div class="row mt-4 pl-3">
                         	<input type="submit" name="submit" value="Submit" class="btn btn-outline-primary">
-                          <!-- <a href="#" class="btn btn-outline-primary">Submit</a> -->
                         </div>
-                      </form>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          </form>
           <!-- Price End-->
           <!-- partial:../../partials/_footer.html -->
           <footer class="footer">
@@ -295,11 +293,60 @@
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script src="../static/app/assets/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page-->
     <script src="../static/app/assets/datatables.net/jquery.dataTables.js"></script>
     <script src="../static/app/assets/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    
+    <script>
+    $(document).mouseup(function(e){
+      var container = $(".prelist");
+      if (!container.is(e.target) && container.has(e.target).length === 0) 
+      {
+          $('.prelist').html('');
+      }
+    });
+
+    $(document).ready(function(){
+      $('#lead_name').keyup(function(){
+          var lead_name = $(this).val();
+          // if($.trim(lead_name)!=''){
+              $.ajax({
+                  url : '/temp/',
+                  type : 'POST',
+                  // dataType : 'json',
+                  data : {lead_name:lead_name},
+                  success:function(res){
+                      $('.prelist').html(res.html);
+                      $('.prelist').show();
+                      $('.select-lead-name').click(function(){
+                          var name = $(this).data('name');
+                          var address = $(this).data('address');
+                          var email = $(this).data('email');
+                          var mobile = $(this).data('mobile');
+                          $('#sellcar_fr #lead_name').val(name);
+                          $('#sellcar_fr #email').val(email);
+                          $('#sellcar_fr #phone').val(mobile);
+                          $('#sellcar_fr #address').val(address);
+                          $('.prelist').hide();     
+                      })
+                      
+                  }
+              })
+          // }
+        });
+    })
+        
+    </script>
+
+
     <script src="../static/app/assets/dropify/dropify.min.js"></script>
     <!-- <script src="assets/js/jquery.multi-select.js"></script> -->
     <!-- End plugin js for this page-->
@@ -308,7 +355,7 @@
     <script src="../static/app/assets/js/dropdown.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page-->
-    <script src="../static/app/../static/app/assets/js/data-table.js"></script>
+    <!-- <script src="../static/app/../static/app/assets/js/data-table.js"></script> -->
     <script src="../static/app/assets/js/dropify.js"></script>
     <!-- End custom js for this page-->
 

@@ -31,7 +31,7 @@
                 <span class="mdi mdi-menu"></span>
               </button>
             </li>
-            <li class="nav-item nav-search d-none d-lg-flex">
+            <!-- <li class="nav-item nav-search d-none d-lg-flex">
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="search">
@@ -40,10 +40,14 @@
                 </div>
                 <input type="text" class="form-control" placeholder="search" aria-label="search" aria-describedby="search">
               </div>
-            </li>
+            </li> -->
           </ul>
+          <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo" href="index.html"><img src="../static/app/assets/img/logo.png"></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../static/app/assets/img/logo.png"></a>
+          </div>
           <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown">
+            <!-- <li class="nav-item dropdown">
               <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                 <i class="mdi mdi-bell-outline mx-0"></i>
                 <span class="count"></span>
@@ -97,17 +101,17 @@
                   </div>
                 </a>
               </div>
-            </li>
+            </li> -->
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                 <img src="https://via.placeholder.com/30x30" alt="profile"/>
                 <span class="nav-profile-name">{{ user }}</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                <a class="dropdown-item">
+                <!-- <a class="dropdown-item">
                   <i class="mdi mdi-settings text-primary"></i>
                   Settings
-                </a>
+                </a> -->
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'logout' %}">
                   <i class="mdi mdi-logout text-primary"></i>
@@ -193,7 +197,7 @@
                       <table class="table text-center">
                         <thead>
                           <tr>
-                              <th>#Order No:</th>
+                              <th>Date</th>
                               <th>Customer Name</th>
                               <th>Customer Email</th>
                               <th>Customer Mobile</th>
@@ -205,7 +209,7 @@
                         <tbody>
                           {% for x in cust_detail reversed %}
                           <tr>
-                            <td>{{ forloop.counter }}</td>
+                            <td>{{ x.Date }}</td>
                             <td>{{ x.CustName }}</td>
                             <td>{{ x.CustEmail }}</td>
                             <td>{{ x.CustMobile }}</td>
@@ -214,7 +218,7 @@
                             <td>
                               <a class="view-btn" href="{% url 'cust_view' x.CustID %}"><i class="mdi mdi-eye"></i></a>
                               <!-- <a class="edit-btn" href="#"><i class="mdi mdi-pencil-box-outline menu-icon"></i></a> -->
-                              <a class="delete-btn" href="{% url 'cust_delete' x.CustID %}"><i class="mdi mdi-delete"></i></a>
+                              <a class="convert-btn" href="javascript:void(0)" onclick="myFunction('{{ x.CustID }}')"><i class="mdi mdi-delete-empty"></i></a>
                             </td>
                           </tr>
                           {% endfor %}
@@ -381,5 +385,60 @@
     <!-- Custom js for this page-->
     <script src="../static/app/assets/js/data-table.js"></script>
     <!-- End custom js for this page-->
+  <div class="modal fade" id="converModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Attention!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="color: red;">{{ msg }}</p>
+        <form name="lead_to_cus" id="lead_to_cus" method="post" action="{% url 'cust_delete' %}">
+          {% csrf_token %}
+          <input type="hidden" name="cust_id" id="cust_id">
+          <p style="text-align: center;">You Want to delete this Customer?</p>
+          <!-- <div class="form-group">
+            <label for="car_name">Car Name</label>
+            <input type="text" name="car_name" id="car_name" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="text" name="amount" id="amount" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="amount">Car RegNo</label>
+            <input type="text" name="RegNo" id="RegNo" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" name="date" class="form-control">
+          </div> -->
+            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+            <button type="submit" name="submit" style="align-items: center;" class="btn btn-primary">Yes</button>
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+    <script>
+      function myFunction(car) {
+        $('#lead_to_cus #cust_id').val(car);
+        $('#converModel').modal();
+        // var txt;
+        // var person = prompt("Enter Purchased car name:");
+        // if (person == null || person == "") {
+        //   txt = "User cancelled the prompt.";
+        // } else {
+        //   txt = "Hello " + person + "! How are you today?";
+        // }
+        // document.getElementById("car"+car).value = person;
+      }
+    </script>
   </body>
 </html>

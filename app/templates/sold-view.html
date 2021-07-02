@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -12,13 +11,13 @@
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="../static/app/assets/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="../static/app/assets/dropify/dropify.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="../static/app/assets/css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="" />
   </head>
-
   <body class="sidebar-icon-only">
     <div class="container-scroller">
       <!-- partial:../../partials/_navbar.html -->
@@ -157,89 +156,91 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'sold_cars' %}">
-              <i class="mdi mdi-cash-multiple menu-icon"></i>
-              <span class="menu-title">Sold Cars</span>
+                <i class="mdi mdi-cash-multiple menu-icon"></i>
+                <span class="menu-title">Sold Cars</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'all_rep' %}">
-              <i class="mdi mdi-file-document-box-outline menu-icon"></i>
-              <span class="menu-title">Reports</span>
+                <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+                <span class="menu-title">Reports</span>
               </a>
             </li>
           </ul>
         </nav>
         <!-- partial -->
         <div class="main-panel">
+          <!-- Price Start-->
           <div class="content-wrapper">
-            <div class="card">
-              <div class="card-body">
-                <div class="col-12">
-                  <div class="row justify-content-center mb-2">
-                    <h2>Ledger Report</h2>
-                  </div>
-                  <form method="post" enctype="multipart/form-data">
-                  {% csrf_token %}
-                  <div class="row">
-                    <div class="col float-left d-flex mb-3">
-                      <div class="row">
-                        <div class="col-6">
-                          <label>From</label>
-                          <input type="date" name="f_date" class="btn btn-outline-primary">
+            <div class="row">
+              <div class=" col float-left">
+                <h2 class="pl-3">View Sold Car</h2>
+              </div>
+              <!-- <div class="col mb-2">
+                <a href="lead-details.html" class="edit-btn float-right"><i class="mdi mdi-lead-pencil"></i></a>
+              </div> -->
+            </div>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="container">
+                      <form>
+                        {% for x in sold_cars %}
+                        <div class="row">
+                          <div class="col">
+                            <label>Car Name</label>
+                            <input type="text" name="car_name" value="{{ x.CarName }}" class="form-control" disabled placeholder="">
+                          </div>
+                          <div class="col">
+                            <label>Customer</label>
+                            <input type="text" name="customer" value="{{ x.CurrentCust }}" class="form-control" disabled placeholder="">
+                          </div>
                         </div>
-                        <div class="col-6">
-                          <label>To</label>
-                          <input type="date" name="t_date" class="btn btn-outline-primary">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col mt-4">
-                      <input type="submit" class="btn btn-outline-primary  float-right" value="View">
+                        <div class="row mt-2">
+                          <div class="col">
+                            <label>Car Model</label>
+                            <input type="text" name="car_model" value="{{ x.CarModel }}" class="form-control" disabled placeholder="">
+                          </div>
+                          <div class="col">
+                            <label>Sell Price</label>
+                            <input type="text" name="sell_price" value="{{ x.Amount }}" class="form-control" disabled placeholder="">
+                          </div>
+                        </div> 
+                        <div class="row mt-2">
+                          <div class="col">
+                            <label>KW No:</label>
+                            <input type="text" name="kw_no" value="{{ x.KWNo }}" class="form-control" disabled placeholder="">
+                          </div>
+                          <div class="col">
+                            <label>Register No:</label>
+                            <input type="text" name="reg_no" value="{{ x.RegNo }}" class="form-control" disabled placeholder="">
+                          </div>
+                        </div> 
+                        <div class="row mt-2">
+                          <div class="col">
+                            <label>Profit</label>
+                            <input type="text" name="profit" value="{{ x.Profit }}" class="form-control" disabled placeholder="">
+                          </div>
+                        </div> 
+                        <div class="row mt-2 ">
+                          <div class="col-12 mx-auto">
+                            <label>Car Image</label>
+                            <input type="file" class="dropify" data-default-file="../media/{{ x.CarImage }}" disabled placeholder=""/>
+                          </div>
+                        </div> 
+                        <!-- <div class="row mt-4 pl-3 justify-content-center">
+                          <a class="btn btn-outline-primary">save</a>
+                        </div> -->
+                        {% endfor %}
+                      </form>
                     </div>
                   </div>
-                </div>
-                </form>
-                <!-- <div class="row">
-                  <div class="col-12">
-                    <div class="table-responsive">
-                       <table class="table text-center">
-                          <tr>
-                              <th>Date</th>
-                              <th>CarName</th>
-                              <th>RegNo</th>
-                              <th>KWNo</th>
-                              <th>V.Type</th>
-                              <th>Credit</th>
-                              <th>Debit</th>
-                          </tr>
-                          {% for x in sold_details %}
-                          <tr style="text-align: center;">
-                              <td>{{ x.Date }}</td>
-                              <td>{{ x.CarName }}</td>
-                              <td>{{ x.RegNo }}</td>
-                              <td>{{ x.KWNo }}</td>
-                              <td>{{ x.Vtype }}</td>
-                              <td>{{ x.Amount }}</td>
-                              <td>{{ x.FinalPrice }}</td>
-                          </tr>
-                          {% endfor %}
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mt-4 justify-content-center">
-                  <a href="{% url 'ledger_rep' %}" target="_blank">
-                  <input type="button" name="download" value="Download" class="btn btn-outline-primary">
-                  </a>
                 </div>
               </div>
             </div>
-          </div> -->
-        </div>
-      </div>
-    </div>
-          <!-- content-wrapper ends -->
-          
+          </div>
+          <!-- Price End-->
           <!-- partial:../../partials/_footer.html -->
           <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
@@ -260,12 +261,14 @@
     <!-- Plugin js for this page-->
     <script src="../static/app/assets/datatables.net/jquery.dataTables.js"></script>
     <script src="../static/app/assets/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="../static/app/assets/dropify/dropify.min.js"></script>
     <!-- End plugin js for this page-->
     <!-- inject:js -->
     <script src="../static/app/assets/js/index.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page-->
     <script src="../static/app/assets/js/data-table.js"></script>
+     <script src="../static/app/assets/js/dropify.js"></script>
     <!-- End custom js for this page-->
   </body>
 </html>

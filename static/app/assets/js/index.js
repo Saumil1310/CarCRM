@@ -243,24 +243,35 @@
 
 
 // Radio //
+// $(document).ready(function() {
+//     $("input[type='radio']").change(function() {
+//         if ($(this).val() == "cash") {
+//             $("#cash").show();
+//         } else {
+//             $("#cash").hide();
+//         }
+//     });
+//     $("input[type='radio']").change(function() {
+//         if ($(this).val() == "finance") {
+//             $("#finance").show();
+//         } else {
+//             $("#finance").hide();
+//         }
+//     });
+// });
+// For Invoice
 $(document).ready(function() {
     $("input[type='radio']").change(function() {
         if ($(this).val() == "Cash") {
-            $("#Cash").show();
-        } else {
-            $("#Cash").hide();
-        }
-    });
-    $("input[type='radio']").change(function() {
+            $(".for_cash").show();
+            $(".for_finance").hide();
+        } 
         if ($(this).val() == "Finance") {
-            $("#Finance").show();
-        } else {
-            $("#Finance").hide();
-        }
+            $(".for_cash").hide();
+            $(".for_finance").show();
+        } 
     });
-});
-
-
+ });
 
 // Addition With Button //
 function add(){

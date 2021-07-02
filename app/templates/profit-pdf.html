@@ -27,13 +27,16 @@
           <div class="col-12">
             <div class="row mb-2">
               <div class="col-12 text-center">
-                <h6 style="text-align: center;">Ahmedabad</h6>
-                <h1 style="text-align: center;">Showtime Media Management</h1>
-                <h4 style="text-align: center;">Sales Report</h4>
-                <h6 style="text-align: center;">8048 Bienville Dr, Nashville,<br>
-                  Tennessee 37211, US<br>
-                  Mitch@showtimemediamgmt.com</h6>
-                  <label class="mr-2"><h3 style="text-align: center;">{{ from_date }}</h3></label><h3 style="text-align: center;">To</h3><lable class="ml-2"> <h3 style="text-align: center;">{{ to_date }}</h3></lable>
+                <h1 style="text-align: center;">KW MOTORS</h1>
+                <h4 style="text-align: center;">Profit Report</h4>
+                <h6 style="text-align: center;">KW Motors Ltd
+                Hertfordshire
+                AL2 3NY
+                <br>
+                      Noke Lane St Albans<br>
+                      sales@kwmotorsltd.co.uk<br>
+                    Contact Us: +44 1234 677722</h6>
+                  <h3 style="text-align: center;">{{ from_date }} To {{ to_date }}</h3>
               </div>
             </div>
           </div>
@@ -43,22 +46,24 @@
                 <table class="table text-center">
                   <thead>
                     <tr>
-                    <th>No:</th>
+                    <th>KWNo</th>
                     <th>Date</th>
                     <th>Car Name</th>
                     <th>Customer Name</th>
                     <th>Reg No</th>
                     <th>BuyPrice+Expence</th>
+                    <th>Sell Price</th>
                     <th>Profit</th>
                 </tr>
                 {% for x in sold_details %}
                 <tr style="text-align: center;">
-                    <td>{{ forloop.counter }}</td>
+                    <td>{{ x.KWNo }}</td>
                     <td>{{ x.Date }}</td>
                     <td>{{ x.CarName }}</td>
                     <td>{{ x.CurrentCust }}</td>
                     <td>{{ x.RegNo }}</td>
                     <td>{{ x.Buy_EXP }}</td>
+                    <td>{{ x.Amount }}</td>
                     <td>{{ x.Profit }}</td>
                 </tr>
                 {% endfor %}

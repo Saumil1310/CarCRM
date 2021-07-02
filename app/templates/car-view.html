@@ -32,20 +32,14 @@
                 <span class="mdi mdi-menu"></span>
               </button>
             </li>
-            <li class="nav-item nav-search d-none d-lg-flex">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="search">
-                    <i class="mdi mdi-magnify"></i>
-                  </span>
-                </div>
-                <input type="text" class="form-control" placeholder="search" aria-label="search" aria-describedby="search">
-              </div>
-            </li>
+
           </ul>
-          
+          <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo" href="index.html"><img src="../static/app/assets/img/logo.png"></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../static/app/assets/img/logo.png"></a>
+          </div>
           <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown">
+            <!-- <li class="nav-item dropdown">
               <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                 <i class="mdi mdi-bell-outline mx-0"></i>
                 <span class="count"></span>
@@ -99,17 +93,17 @@
                   </div>
                 </a>
               </div>
-            </li>
+            </li> -->
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                 <img src="https://via.placeholder.com/30x30" alt="profile"/>
                 <span class="nav-profile-name">{{ user }}</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                <a class="dropdown-item">
+                <!-- <a class="dropdown-item">
                   <i class="mdi mdi-settings text-primary"></i>
                   Settings
-                </a>
+                </a> -->
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'logout' %}">
                   <i class="mdi mdi-logout text-primary"></i>
@@ -189,13 +183,13 @@
                       <div class="row">
                         <div class="col">
                           <lable>Old Customer</lable>
-                          <input type="text" name="old_cus" class="form-control" disabled placeholder="{{ x.OldCust }}">
+                          <input type="text" name="old_cus" class="form-control" value="{{ x.OldCust }}" disabled placeholder="{{ x.OldCust }}">
                         </div>
                       </div>
                       <div class="row mt-2">
                         <div class="col">
                           <label>Car Name</label>
-                          <input type="text" name="cname" class="form-control" disabled placeholder="{{ x.CarName }}">
+                          <input type="text" name="cname" class="form-control" value="{{ x.CarName }}"disabled placeholder="{{ x.CarName }}">
                         </div>
                         <div class="col">
                           <label>Date</label>
@@ -203,17 +197,17 @@
                         </div>
                         <div class="col">
                           <label>Car Model</label>
-                          <input type="text" name="cmodel" class="form-control" disabled placeholder="{{ x.CarModel }}">
+                          <input type="text" name="cmodel" class="form-control" value="{{ x.CarModel }}" disabled placeholder="{{ x.CarModel }}">
                         </div>
                       </div>
                       <div class="row mt-2">
                         <div class="col">
                           <label>Make</label>
-                          <input type="text" name="Mfg" class="form-control" disabled placeholder="{{ x.Mfg }}">
+                          <input type="text" name="Mfg" class="form-control" value="{{ x.Mfg }}" disabled placeholder="{{ x.Mfg }}">
                         </div>
                         <div class="col">
                           <label>Registration No:</label>
-                          <input type="text" name="reg_no" class="form-control" disabled placeholder="{{ x.RegNo }}">
+                          <input type="text" name="reg_no" class="form-control"value="{{ x.RegNo }}" disabled placeholder="{{ x.RegNo }}">
                         </div>
                       </div>
                       <div class="row">
@@ -221,13 +215,13 @@
                           <div class="row mt-2">
                             <div class="col">
                               <label>Milage</label>
-                              <input type="text" name="milage" class="form-control" disabled placeholder="{{ x.Milage }}">
+                              <input type="text" name="milage" class="form-control"value="{{ x.Milage }}" disabled placeholder="{{ x.Milage }}">
                             </div>
                           </div>  
                           <div class="row mt-2">
                             <div class="col">
                               <label>Engine</label>
-                              <input type="text" name="enquiry" class="form-control" disabled placeholder="{{ x.Engine }}">
+                              <input type="text" name="enquiry" class="form-control" value="{{ x.Engine }}" disabled placeholder="{{ x.Engine }}">
                             </div>
                           </div>
                         </div>
@@ -235,7 +229,7 @@
                           <div class="row mt-2">
                             <div class="col">
                               <label>Car Image</label>
-                              <input type="file" class="dropify" disabled placeholder="">
+                              <input type="file" class="dropify" disabled data-default-file="../media/{{ x.CarImage }}"/ placeholder="">
                             </div>
                           </div>
                         </div>
@@ -249,22 +243,24 @@
           <!-- Documentation Start-->
           <div class="content-wrapper">
             <div class="row">
+            {% for x in car_doc %}
               <div class="col-lg-6 grid-margin">
                 <div class="card">
                   <h2 class="pl-3 mt-3">Documentation</h2>
                   <div class="card-body">
                     <div class="field_wrapper">
                       <div class="row">
-                        <input type="text" name="doc" disabled placeholder="Document Description" class="mr-2 ml-3">
-                        <input type="file" name="drop_img" class="dropify" disabled placeholder=""/>
+                        <input type="text" name="doc" value="{{ x.DocDescription }}" disabled placeholder="Document Description" class="mr-2 ml-3">
+                        <input type="file" name="drop_img" class="dropify" disabled placeholder="" data-default-file="../media/{{ x.Doc }}"//>
                         <!-- <input type="text" name="field_name[]" value=""/> -->
-                        <a href="javascript:void(0);" class="add_button btn-duplicator" title="Add field"><img src="../static/app/assets/img/add-icon.png" class="pl-5 mt-5"></a>
+                        <a href="javascript:void(0);" class="add_button btn-duplicator" title="Add field"><!-- <img src="../static/app/assets/img/add-icon.png" class="pl-5 mt-5"> --></a>
                       </div>
                     </div>
                     <!-- <a class="btn btn-outline-primary mt-3" href="#">Expense</a> -->
                   </div>
                 </div>
               </div>
+              {% endfor %}
               {% for x in car_detail %}
               <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
@@ -275,14 +271,14 @@
                       <div class="col">
                         <div class="input-group-prepend">
                           <span class="input-group-text bg-primary text-white">£</span>
-                          <input type="text" name="bodyshop" id="first" class="form-control" placeholder="{{ x.BodyShop_Amount }}" disabled>
+                          <input type="text" name="bodyshop" id="first" class="form-control" value="{{ x.BodyShop_Amount }}" placeholder="{{ x.BodyShop_Amount }}" disabled>
                           <div class="input-group-append">
                             <span class="input-group-text">.00</span>
                           </div>
                         </div>
                       </div>
                       <div class="col">
-                        <input type="text" name="bodyshop1" id="first" class="form-control" disabled placeholder="{{ x.BodyShop_Details }}">
+                        <input type="text" name="bodyshop1" id="first" class="form-control"value="{{ x.BodyShop_Details }}" disabled placeholder="{{ x.BodyShop_Details }}">
                       </div>
                     </div>
                     <div class="row mt-2">
@@ -290,7 +286,7 @@
                       <div class="col">
                         <div class="input-group-prepend">
                           <span class="input-group-text bg-primary text-white">£</span>
-                          <input type="text" name="mot" id="second" class="form-control" placeholder="{{ x.MOT_Amount }}" 
+                          <input type="text" name="mot" id="second" class="form-control" value="{{ x.MOT_Amount }}" placeholder="{{ x.MOT_Amount }}"
                           disabled>
                           <div class="input-group-append">
                             <span class="input-group-text">.00</span>
@@ -298,7 +294,7 @@
                         </div>
                       </div>
                       <div class="col">
-                        <input type="text" name="mot1" id="second" class="form-control" disabled placeholder="{{ x.MOT_Details }}">
+                        <input type="text" name="mot1" id="second" class="form-control" value="{{ x.MOT_Details }}" disabled placeholder="{{ x.MOT_Details }}">
                       </div>
                     </div> 
                     <div class="row mt-2">
@@ -306,14 +302,14 @@
                       <div class="col">
                           <div class="input-group-prepend">
                             <span class="input-group-text bg-primary text-white">£</span>
-                            <input type="text" name="mechanic" id="third" class="form-control" placeholder="{{ x.Mechanic_Amount }}" disabled>
+                            <input type="text" name="mechanic" id="third" class="form-control" value="{{ x.Mechanic_Amount }}" placeholder="{{ x.Mechanic_Amount }}" disabled>
                             <div class="input-group-append">
                               <span class="input-group-text">.00</span>
                             </div>
                           </div>
                       </div>
                       <div class="col">
-                        <input type="text" name="mechanic1" id="third" class="form-control" disabled placeholder="{{ x.Mechanic_Details }}">
+                        <input type="text" name="mechanic1" id="third" class="form-control" value="{{ x.Mechanic_Details }}" disabled placeholder="{{ x.Mechanic_Details }}">
                       </div>
                     </div>  
                     <div class="row mt-2">
@@ -321,14 +317,14 @@
                       <div class="col">
                           <div class="input-group-prepend">
                             <span class="input-group-text bg-primary text-white">£</span>
-                            <input type="text" name="travelling" id="fourth" class="form-control" placeholder="{{ x.Travelling_Amount }}" disabled>
+                            <input type="text" name="travelling" id="fourth" class="form-control"value="{{ x.Travelling_Amount }}" placeholder="{{ x.Travelling_Amount }}" disabled>
                             <div class="input-group-append">
                               <span class="input-group-text">.00</span>
                             </div>
                           </div>
                       </div>
                       <div class="col">
-                        <input type="text" name="travelling1" id="fourth" class="form-control" disabled placeholder="{{ x.Travelling_Details }}">
+                        <input type="text" name="travelling1" id="fourth" class="form-control"value="{{ x.Travelling_Details }}" disabled placeholder="{{ x.Travelling_Details }}">
                       </div>
                     </div> 
                     <div class="row mt-2">
@@ -336,14 +332,14 @@
                       <div class="col">
                           <div class="input-group-prepend">
                             <span class="input-group-text bg-primary text-white">£</span>
-                            <input type="text" name="fuel" id="fifth" class="form-control" placeholder="{{ x.Fuel_Amount }}" disabled>
+                            <input type="text" name="fuel" id="fifth" class="form-control" value="{{ x.Fuel_Amount }}" placeholder="{{ x.Fuel_Amount }}" disabled>
                             <div class="input-group-append">
                               <span class="input-group-text">.00</span>
                             </div>
                           </div>
                       </div>
                       <div class="col">
-                        <input type="text" name="fuel1" id="fifth" class="form-control" disabled placeholder="{{ x.Fuel_Details }}">
+                        <input type="text" name="fuel1" id="fifth" class="form-control" value="{{ x.Fuel_Details }}" disabled placeholder="{{ x.Fuel_Details }}">
                       </div>
                     </div> 
                     <div class="row mt-2">
@@ -351,7 +347,7 @@
                       <div class="col">
                         <div class="input-group-prepend">
                           <span class="input-group-text bg-primary text-white">£</span>
-                          <input type="text" name="answer" id="answer" class="form-control" disabled placeholder="{{ x.Total_Expenses }}">
+                          <input type="text" name="answer" id="answer" class="form-control"value="{{ x.Total_Expenses }}" disabled placeholder="{{ x.Total_Expenses }}">
                           <div class="input-group-append">
                             <span class="input-group-text">.00</span>
                           </div>
@@ -380,7 +376,7 @@
                             <label>Buy Price</label>
                             <div class="input-group-prepend">
                               <span class="input-group-text bg-primary text-white">£</span>
-                              <input type="text" name="buy_price" class="form-control" disabled placeholder="{{ x.BuyPrice }}">
+                              <input type="text" name="buy_price" class="form-control"value="{{ x.BuyPrice }}" disabled placeholder="{{ x.BuyPrice }}">
                               <div class="input-group-append">
                                 <span class="input-group-text">.00</span>
                               </div>
@@ -392,7 +388,7 @@
                         <div class="row mt-2">
                           <div class="col">
                             <label>Total Car Value After Expenses</label>
-                            <input type="text" name="expense" class="form-control" disabled placeholder="{{ x.Total_Expenses }}">
+                            <input type="text" name="expense" class="form-control"value="{{ x.Total_Expenses }}" disabled placeholder="{{ x.Total_Expenses }}">
                           </div>
                         </div>
                       {% endfor %} 
@@ -402,7 +398,7 @@
                             <label>Sell price</label>
                             <div class="input-group-prepend">
                               <span class="input-group-text bg-primary text-white">£</span>
-                              <input type="text" name="sell-price" class="form-control" disabled placeholder="{{ x.SellPrice }}">
+                              <input type="text" name="sell-price" class="form-control"value="{{ x.SellPrice }}" disabled placeholder="{{ x.SellPrice }}">
                               <div class="input-group-append">
                                 <span class="input-group-text">.00</span>
                               </div>

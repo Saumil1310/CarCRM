@@ -42,8 +42,8 @@
             </li> -->
           </ul>
           <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo" href="index.html"><img src="../static/app/assets/img/logo.png"></a>
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../static/app/assets/img/logo.png"></a>
+            <a class="navbar-brand brand-logo" href="index.html"><img src="../static/app/assets/img/logo.png" width="150"></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../static/app/assets/img/logo.png" width="150"></a>
           </div>
           <ul class="navbar-nav navbar-nav-right">
             <!-- <li class="nav-item dropdown">
@@ -176,18 +176,19 @@
               <div class="card-body">
                 <div class="col-12">
                   <div class="row justify-content-center mb-2">
-                    <h2>Ledger Report</h2>
+                    <h2>Profit Report</h2>
                   </div>
                   <form method="post" enctype="multipart/form-data">
-                  {% csrf_token %}
+                    {% csrf_token %}
                   <div class="row">
                     <div class="col float-left d-flex mb-3">
                       <div class="row">
-                        <div class="col-6">
+                        <div class="col-5">
                           <label>From</label>
                           <input type="date" name="f_date" class="btn btn-outline-primary">
                         </div>
-                        <div class="col-6">
+                        
+                        <div class="col-4">
                           <label>To</label>
                           <input type="date" name="t_date" class="btn btn-outline-primary">
                         </div>
@@ -199,45 +200,52 @@
                   </div>
                 </div>
                 </form>
-                <!-- <div class="row">
+                 <div class="row">
                   <div class="col-12">
                     <div class="table-responsive">
-                       <table class="table text-center">
+                      <table class="table text-center">
+                        <thead>
                           <tr>
-                              <th>Date</th>
-                              <th>CarName</th>
-                              <th>RegNo</th>
                               <th>KWNo</th>
-                              <th>V.Type</th>
-                              <th>Credit</th>
-                              <th>Debit</th>
+                              <th>Date</th>
+                              <th>Car Name</th>
+                              <th>Customer Name</th>
+                              <th>Reg. No.</th>
+                              <th>BuyPrice+Expense</th>
+                              <th>Sell Price</th>
+                              <th>Profit</th>
                           </tr>
+                        </thead>
+                        <tbody>
                           {% for x in sold_details %}
-                          <tr style="text-align: center;">
+                          <tr>
+                              <td>{{ x.KWNo }}</td>
                               <td>{{ x.Date }}</td>
                               <td>{{ x.CarName }}</td>
+                              <td>{{ x.CurrentCust }}</td>
                               <td>{{ x.RegNo }}</td>
-                              <td>{{ x.KWNo }}</td>
-                              <td>{{ x.Vtype }}</td>
+                              <td>{{ x.Buy_EXP }}</td>
                               <td>{{ x.Amount }}</td>
-                              <td>{{ x.FinalPrice }}</td>
+                              <td>{{ x.Profit }}</td>
                           </tr>
                           {% endfor %}
+                        </tbody>
                       </table>
                     </div>
                   </div>
-                </div>
+                </div> 
+
                 <div class="row mt-4 justify-content-center">
-                  <a href="{% url 'ledger_rep' %}" target="_blank">
+                  <a href="{% url 'profit_rep' %}" target="_blank">
                   <input type="button" name="download" value="Download" class="btn btn-outline-primary">
                   </a>
                 </div>
               </div>
             </div>
-          </div> -->
+          </div>
+          </div>
         </div>
       </div>
-    </div>
           <!-- content-wrapper ends -->
           
           <!-- partial:../../partials/_footer.html -->
